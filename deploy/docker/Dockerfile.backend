@@ -1,0 +1,23 @@
+FROM python:3.10-slim
+
+WORKDIR /app
+
+RUN pip install --upgrade pip
+
+# 1/2 先安装 CPU-only PyTorch（不含 CUDA 工具包，~200MB vs GPU版 ~3GB+）
+RUN pip install --no-cache-dir torch --index-url https://download.pytorch.org/whl/cpu
+
+# 2/2 安装生产依赖（不含 pytest 等测试依赖，torch 已跳过）
+COPY backend/requirements-prod.txt ./
+RUN pip install --no-cache-dir -r requirements-prod.txt \
+    && rm -f requirements-prod.txt
+
+COPY static ./static
+COPY backend/ .
+
+EXPOSE 8010
+
+ENV PYTHONUNBUFFERED=1
+ENV PORT=8010
+
+CMD ["python", "main.py"]
