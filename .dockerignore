@@ -3,10 +3,6 @@ dist
 .git
 .gitignore
 .env
-.env.test
-.env.production
-.env.build
-.env.backend
 *.md
 backend/__pycache__
 backend/.env
