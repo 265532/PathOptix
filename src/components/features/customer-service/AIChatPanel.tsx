@@ -53,7 +53,7 @@ const AIChatPanel: React.FC<AIChatPanelProps> = ({ orderContext, agentTrigger = 
     setIsLoading(true);
 
     try {
-      const BASE = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8010';
+      const BASE = import.meta.env.VITE_API_BASE_URL ?? 'http://localhost:8010';
 
       const response = await fetch(`${BASE}/api/chat`, {
         method: 'POST',
