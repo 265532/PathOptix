@@ -1,14 +1,60 @@
 
+import json
+import os
+
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
-import os
+
 from app.config import settings
 from app.api import router as api_router
-from app.models.database import engine, Base
+from app.models.database import engine, Base, SessionLocal
+from app.models.user import User
+from app.models.order import Order
+from app.services.auth import get_password_hash
 
-Base.metadata.create_all(bind=engine)
+def init_database():
+    Base.metadata.create_all(bind=engine)
+    db = SessionLocal()
+    try:
+        existing_user = db.query(User).filter(User.username == "lorry").first()
+        if not existing_user:
+            hashed_password = get_password_hash("123456")
+            test_user = User(
+                username="lorry",
+                email="lorry@example.com",
+                password_hash=hashed_password,
+                full_name="Lorry Driver",
+                is_active=True,
+                is_admin=True
+            )
+            db.add(test_user)
+            db.commit()
+            print("[DB Init] 测试用户 'lorry' 已创建（密码: 123456）")
+        else:
+            print("[DB Init] 用户 'lorry' 已存在，跳过")
+
+        orders_file = os.path.join(os.path.dirname(os.path.abspath(__file__)), "orders.json")
+        if os.path.exists(orders_file):
+            with open(orders_file, "r", encoding="utf-8") as f:
+                orders_data = json.load(f)
+            added = 0
+            for order_data in orders_data:
+                existing = db.query(Order).filter(Order.id == order_data["id"]).first()
+                if not existing:
+                    db.add(Order(**order_data))
+                    added += 1
+            if added > 0:
+                db.commit()
+            print(f"[DB Init] 订单数据: 新增 {added} 条（已存在跳过）")
+        else:
+            print(f"[DB Init] orders.json 未找到: {orders_file}")
+    finally:
+        db.close()
+    print("[DB Init] 数据库初始化完成")
+
+init_database()
 
 app = FastAPI(
     title=settings.APP_NAME,
