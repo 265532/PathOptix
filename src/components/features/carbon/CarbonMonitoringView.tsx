@@ -36,6 +36,12 @@ const CarbonMonitoringView: React.FC<CarbonMonitoringViewProps> = ({ onViewChang
     }
   });
 
+  const fmt = (n: number, decimals: number) =>
+    Number(n.toFixed(decimals));
+
+  const fmtTrend = (n: number) =>
+    Number(Math.round(n * 10) / 10);
+
   // 处理 PPO 极绿调度
   const handleOptimizeEnergy = () => {
     if (isOptimizing || hasOptimized) return;
@@ -48,20 +54,20 @@ const CarbonMonitoringView: React.FC<CarbonMonitoringViewProps> = ({ onViewChang
       step++;
       setMetricsData(prev => ({
         carbon: {
-          value: Math.max(0.6, Math.min(3.0, prev.carbon.value + (Math.random() - 0.7) * 0.1)),
-          trend: Math.max(-30, Math.min(-5, prev.carbon.trend + (Math.random() - 0.5) * 1))
+          value: fmt(Math.max(0.6, Math.min(2.0, prev.carbon.value + (Math.random() - 0.7) * 0.15)), 2),
+          trend: fmtTrend(Math.max(-30, Math.min(-5, prev.carbon.trend + (Math.random() - 0.5) * 1)))
         },
         energy: {
-          value: Math.max(7000, Math.min(14000, prev.energy.value + (Math.random() - 0.6) * 200)),
-          trend: Math.max(-10, Math.min(10, prev.energy.trend + (Math.random() - 0.5) * 0.5))
+          value: fmt(Math.max(7000, Math.min(12000, prev.energy.value + (Math.random() - 0.6) * 200)), 0),
+          trend: fmtTrend(Math.max(-10, Math.min(10, prev.energy.trend + (Math.random() - 0.5) * 0.5)))
         },
         offset: {
-          value: Math.max(50, Math.min(90, prev.offset.value + (Math.random() - 0.3) * 0.8)),
-          trend: Math.max(10, Math.min(35, prev.offset.trend + (Math.random() - 0.5) * 1))
+          value: fmt(Math.max(70, Math.min(95, prev.offset.value + (Math.random() - 0.3) * 1.5)), 1),
+          trend: fmtTrend(Math.max(10, Math.min(35, prev.offset.trend + (Math.random() - 0.5) * 1)))
         },
         pue: {
-          value: Math.max(50, Math.min(90, prev.pue.value + (Math.random() - 0.4) * 3)),
-          trend: Math.max(1, Math.min(15, prev.pue.trend + (Math.random() - 0.3) * 1))
+          value: fmt(Math.max(1.02, Math.min(1.35, prev.pue.value + (Math.random() - 0.6) * 0.03)), 2),
+          trend: fmtTrend(Math.max(-0.15, Math.min(-0.02, prev.pue.trend + (Math.random() - 0.4) * 0.02)))
         }
       }));
       if (step >= totalSteps) {

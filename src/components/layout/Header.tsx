@@ -126,7 +126,7 @@ const Header: React.FC<HeaderProps> = ({ onLogout, onViewChange, isSidebarCollap
           </button>
 
           {isNotificationOpen && (
-            <div className="absolute top-full right-0 mt-3 w-80 bg-bg-secondary/95 backdrop-blur-2xl border border-border-default rounded-[28px] shadow-[0_32px_64px_-16px_rgba(0,0,0,0.8)] overflow-hidden animate-in fade-in slide-in-from-top-2 duration-300 origin-top-right z-50">
+            <div className="absolute top-full right-0 mt-3 w-80 bg-bg-secondary backdrop-blur-2xl border border-border-default rounded-[28px] shadow-[0_32px_64px_-16px_rgba(0,0,0,0.8)] overflow-hidden animate-in fade-in slide-in-from-top-2 duration-300 origin-top-right z-50">
               <div className="p-4 border-b border-border-default/50 bg-bg-tertiary/40 flex justify-between items-center">
                 <h3 className="text-sm font-bold text-text-primary">系统通知</h3>
                 <span className="text-[10px] font-bold text-text-muted">{notifications.length} 条新消息</span>

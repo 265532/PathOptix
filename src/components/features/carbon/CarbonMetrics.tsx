@@ -15,37 +15,39 @@ interface CarbonMetricsProps {
 }
 
 const CarbonMetrics: React.FC<CarbonMetricsProps> = ({ metricsData, hasOptimized }) => {
+  const fmt = (n: number, d: number) => Number(n.toFixed(d));
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
       <MetricBox
         icon={<Leaf size={20} />}
         label="碳排放量"
-        value={`${metricsData.carbon.value}t`}
-        trend={`${metricsData.carbon.trend > 0 ? '+' : ''}${metricsData.carbon.trend}%`}
+        value={`${fmt(metricsData.carbon.value, 2)}t`}
+        trend={`${metricsData.carbon.trend > 0 ? '+' : ''}${fmt(metricsData.carbon.trend, 1)}%`}
         color="text-emerald-400"
         hasOptimized={hasOptimized}
       />
       <MetricBox
         icon={<Zap size={20} />}
         label="能耗"
-        value={`${metricsData.energy.value}kWh`}
-        trend={`${metricsData.energy.trend > 0 ? '+' : ''}${metricsData.energy.trend}%`}
+        value={`${fmt(metricsData.energy.value, 0)}kWh`}
+        trend={`${metricsData.energy.trend > 0 ? '+' : ''}${fmt(metricsData.energy.trend, 1)}%`}
         color="text-amber-400"
         hasOptimized={hasOptimized}
       />
       <MetricBox
         icon={<ArrowDownUp size={20} />}
         label="碳抵消率"
-        value={`${metricsData.offset.value}%`}
-        trend={`${metricsData.offset.trend > 0 ? '+' : ''}${metricsData.offset.trend}%`}
+        value={`${fmt(metricsData.offset.value, 1)}%`}
+        trend={`${metricsData.offset.trend > 0 ? '+' : ''}${fmt(metricsData.offset.trend, 1)}%`}
         color="text-cyan-400"
         hasOptimized={hasOptimized}
       />
       <MetricBox
         icon={<Server size={20} />}
         label="PUE"
-        value={`${metricsData.pue.value}`}
-        trend={`${metricsData.pue.trend > 0 ? '+' : ''}${metricsData.pue.trend}`}
+        value={`${fmt(metricsData.pue.value, 2)}`}
+        trend={`${metricsData.pue.trend > 0 ? '+' : ''}${fmt(metricsData.pue.trend, 2)}`}
         color="text-blue-400"
         hasOptimized={hasOptimized}
       />
