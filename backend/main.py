@@ -6,6 +6,9 @@ from fastapi.responses import FileResponse
 import os
 from app.config import settings
 from app.api import router as api_router
+from app.models.database import engine, Base
+
+Base.metadata.create_all(bind=engine)
 
 app = FastAPI(
     title=settings.APP_NAME,
