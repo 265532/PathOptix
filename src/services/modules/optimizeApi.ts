@@ -26,6 +26,7 @@ export interface RlPathJson {
   total_reward: number;
   weights: { w_cost: number; w_time: number; w_carbon: number };
   steps_detail: StepDetail[];
+  path_warning?: string;
 }
 
 export interface OptimizeResponse {

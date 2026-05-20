@@ -11,6 +11,7 @@ from stable_baselines3 import PPO
 from stable_baselines3.common.env_util import make_vec_env
 
 from .logistics_env import LogisticsEnv
+from .db_init import NODE_REGION
 
 MODEL_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "ppo_logistics_model.zip")
 
@@ -146,6 +147,27 @@ def predict_route(
             total_reward += reward
             break
 
+        # 物理边界拒绝: 不记录，尝试换一个合法动作
+        if info.get("boundary_rejected"):
+            total_reward += reward
+            # 从合法动作中排除被拒绝的目标节点
+            rejected_dst = env._action_list[int(action)][0]
+            fallback = [
+                a for a in valid
+                if env._action_list[a][0] not in env.visited_nodes
+                and env._action_list[a][0] != rejected_dst
+            ]
+            if fallback:
+                # 重试：用备选动作再走一步
+                action = fallback[0]
+                step_info = env.action_to_route_step(int(action))
+                obs, reward, terminated, truncated, info = env.step(int(action))
+                if info.get("backtrack") or info.get("boundary_rejected"):
+                    total_reward += reward
+                    break
+            else:
+                break
+
         route_nodes.append(step_info["to"])
         transport_modes.append(step_info["mode"])
         steps_detail.append({
@@ -184,4 +206,19 @@ def predict_route(
         "weights": {"w_cost": w1, "w_time": w2, "w_carbon": w3},
         "steps_detail": steps_detail,
     }
+
+    # ---------- 路径合理性后置校验 ----------
+    # 同大区起终点不应经过其他大区
+    start_region = NODE_REGION.get(start_node_name, "")
+    end_region = NODE_REGION.get(end_node_name, "")
+    if start_region and end_region and start_region == end_region:
+        for node in route_nodes:
+            node_region = NODE_REGION.get(node, "")
+            if node_region and node_region != start_region:
+                result["path_warning"] = (
+                    f"路径异常: {start_node_name}→{end_node_name} 同属{start_region}，"
+                    f"但经过{node}({node_region})中转"
+                )
+                break
+
     return result

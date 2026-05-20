@@ -45,6 +45,18 @@ _ASIA = {"shenzhen", "shanghai"}
 _NA = {"los_angeles", "new_york"}
 _EU = {"rotterdam", "frankfurt"}
 
+# ---------- 区域映射（供物理边界验证器使用） ----------
+REGION_GROUPS: dict[str, set[str]] = {
+    "亚洲": _ASIA,
+    "北美": _NA,
+    "欧洲": _EU,
+}
+
+NODE_REGION: dict[str, str] = {}
+for _region, _nodes in REGION_GROUPS.items():
+    for _nid in _nodes:
+        NODE_REGION[_nid] = _region
+
 # 用于查找坐标的快速索引
 _CITY_LOOKUP = {c["id"]: c for c in CITIES}
 

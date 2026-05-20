@@ -45,6 +45,7 @@ const RobustDetail: React.FC<RobustDetailProps> = ({ rlData, llmReport, startLab
   const routeNodes = rlData?.route_nodes ?? [];
   const reachedGoal = rlData?.reached_goal ?? false;
   const totalReward = rlData?.total_reward ?? 0;
+  const pathWarning = rlData?.path_warning;
 
   // 派生指标
   const costLow = Math.round(totalCost * 0.95);
@@ -73,6 +74,12 @@ const RobustDetail: React.FC<RobustDetailProps> = ({ rlData, llmReport, startLab
       </div>
 
       <div className="bg-bg-secondary/60 backdrop-blur-3xl rounded-[32px] border border-border-default p-8 flex flex-col xl:flex-row gap-10 relative overflow-hidden shadow-2xl">
+        {/* 路径异常警告 */}
+        {pathWarning && (
+          <div className="xl:col-span-2 bg-red-500/10 border border-red-500/30 rounded-lg p-3 flex items-center gap-2">
+            <span className="text-red-400 text-sm">⚠ {pathWarning}</span>
+          </div>
+        )}
         {/* Left Side: Path Visualizer & Metrics */}
         <div className="flex-1 min-w-0 space-y-10">
           {/* 动态调度路线可视化区域 */}

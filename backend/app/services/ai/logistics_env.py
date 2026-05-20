@@ -12,6 +12,7 @@ import networkx as nx
 from gymnasium import spaces
 
 from .db_init import build_graph
+from .physical_boundary import PhysicalBoundaryValidator
 
 DEFAULT_START = "shenzhen"
 DEFAULT_GOAL = "new_york"
@@ -77,6 +78,9 @@ class LogisticsEnv(gym.Env):
         self._steps_taken: int = 0
         self.visited_nodes: set[str] = set()
 
+        # ---------- 物理边界验证器 ----------
+        self._boundary = PhysicalBoundaryValidator(start_node, goal_node)
+
     # ================================================================
     # 图构建
     # ================================================================
@@ -111,6 +115,7 @@ class LogisticsEnv(gym.Env):
         self._current_node = self.start_node
         self._steps_taken = 0
         self.visited_nodes = {self.start_node}
+        self._boundary.reset()
         obs = self._node_to_idx[self._current_node]
         info = self._get_info()
         return obs, info
@@ -146,6 +151,15 @@ class LogisticsEnv(gym.Env):
             info["backtrack"] = True
             return obs, -50.0, True, False, info
 
+        # ----- 物理边界校验 -----
+        boundary_valid, boundary_reason = self._boundary.is_action_valid(dst_node)
+        if not boundary_valid:
+            obs = self._node_to_idx[self._current_node]
+            info = self._get_info()
+            info["boundary_rejected"] = True
+            info["boundary_reason"] = boundary_reason
+            return obs, -50.0, False, False, info
+
         # 查找边属性
         edge_info = None
         for nb, m, ei in self._graph[self._current_node]:
@@ -156,6 +170,7 @@ class LogisticsEnv(gym.Env):
         # 移动
         self._current_node = dst_node
         self.visited_nodes.add(self._current_node)
+        self._boundary.set_current_node(dst_node)
 
         # Reward
         terminated = self._current_node == self.goal_node
@@ -167,6 +182,11 @@ class LogisticsEnv(gym.Env):
                 + self.w_time * edge_info["time_days"]
                 + self.w_carbon * edge_info["carbon_kg"]
             )
+            # 方向偏离惩罚
+            deviation_penalty = self._boundary.compute_deviation_penalty(dst_node)
+            reward += deviation_penalty
+            if deviation_penalty <= -10000:
+                terminated = True
 
         truncated = not terminated and self._steps_taken >= self.max_steps
 
@@ -196,11 +216,20 @@ class LogisticsEnv(gym.Env):
     # ================================================================
 
     def get_valid_actions(self) -> list[int]:
-        """返回当前节点所有合法动作索引。"""
+        """返回当前节点所有合法动作索引（含物理边界过滤）。"""
         neighbors = {
             (nb, m) for nb, m, _ in self._graph.get(self._current_node, [])
         }
-        return [i for i, pair in enumerate(self._action_list) if pair in neighbors]
+        base_valid = [i for i, pair in enumerate(self._action_list) if pair in neighbors]
+
+        # 物理边界过滤
+        boundary_valid = [
+            i for i in base_valid
+            if self._boundary.is_action_valid(self._action_list[i][0])[0]
+        ]
+
+        # 安全兜底: 若全部被过滤，回退到基础合法动作
+        return boundary_valid if boundary_valid else base_valid
 
     def action_to_route_step(self, action: int) -> dict:
         """将动作索引转换为可读信息。"""
