@@ -4,10 +4,10 @@ WORKDIR /app
 
 RUN pip install --upgrade pip
 
-# 0/3 安装构建依赖（orjson 等 C 扩展需要编译工具链）
+# 0/3 安装构建依赖（orjson/greenlet 等 C 扩展需要编译工具链 + Python 头文件）
 RUN sed -i 's|deb.debian.org|mirrors.aliyun.com|g' /etc/apt/sources.list.d/debian.sources \
     && apt-get update && apt-get install -y --no-install-recommends \
-        build-essential gcc \
+        build-essential gcc python3-dev \
     && rm -rf /var/lib/apt/lists/*
 
 # 1/3 先安装 CPU-only PyTorch（不含 CUDA 工具包，~200MB vs GPU版 ~3GB+）
