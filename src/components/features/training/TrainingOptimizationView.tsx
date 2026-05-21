@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useState, useCallback } from 'react';
 import ParamConfig from './ParamConfig';
 import ModelEval from './ModelEval';
 import Monitor from './Monitor';
@@ -8,14 +8,26 @@ import HistoryPanel from './HistoryPanel';
 import LogPanel from './LogPanel';
 import BottomMetrics from './BottomMetrics';
 
+export interface PathStepLog {
+  id: number;
+  time: string;
+  msg: string;
+  color: string;
+  routeLabel?: string;
+}
+
 const TrainingOptimizationView: React.FC = () => {
+  const [pathStepLogs, setPathStepLogs] = useState<PathStepLog[]>([]);
+
+  const addPathStepLog = useCallback((log: PathStepLog) => {
+    setPathStepLogs(prev => [...prev.slice(-199), log]);
+  }, []);
+
   return (
     <div className="p-6 bg-bg-primary min-h-full flex flex-col gap-6 animate-in fade-in duration-700">
-         {/* 底部指标 */}
       <BottomMetrics />
-      
+
       <div className="flex flex-1 gap-6 min-h-0">
-        
         {/* 左侧：配置与评估 */}
         <div className="w-64 flex flex-col gap-6 shrink-0">
           <ParamConfig />
@@ -25,19 +37,15 @@ const TrainingOptimizationView: React.FC = () => {
         {/* 中间：监控与可视化 */}
         <div className="flex-1 flex flex-col gap-6 min-w-0">
           <Monitor />
-          <Visualizer />
+          <Visualizer onPathStep={addPathStepLog} />
         </div>
 
-        {/* 右侧：历史与日志 */}
-        <div className="w-80 flex flex-col gap-6 shrink-0">
+        {/* 右侧：历史与日志 — min-h-0 确保 flex 子元素可收缩 */}
+        <div className="w-80 flex flex-col gap-6 shrink-0 min-h-0">
           <HistoryPanel />
-          <LogPanel />
+          <LogPanel pathStepLogs={pathStepLogs} />
         </div>
       </div>
-
-   
-      
-
     </div>
   );
 };

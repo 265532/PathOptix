@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { Compass } from 'lucide-react';
 import { useChartTheme } from '@hooks/useChartTheme';
+import type { PathStepLog } from './TrainingOptimizationView';
 
 /* ================================================================
  *  地理坐标系统
@@ -39,7 +40,7 @@ const COASTLINES = {
   taiwan: `M 845 35 L 855 45 L 858 62 L 852 78 L 844 72 L 840 55 Z`,
 };
 
-/* 探索路径 */
+/* 探索路径（旧版，仅作背景装饰） */
 const EXPLORATION_PATHS = [
   `M ${PORTS.shenzhen.x} ${PORTS.shenzhen.y} C ${PORTS.shenzhen.x - 40} 200 ${STORMS[0].cx + 20} ${STORMS[0].cy + 30} ${STORMS[0].cx} ${STORMS[0].cy}`,
   `M ${PORTS.shenzhen.x} ${PORTS.shenzhen.y} C ${PORTS.shenzhen.x - 20} 250 460 200 455 195`,
@@ -52,12 +53,269 @@ const EXPLORATION_PATHS = [
 const POLICY_D = `M ${PORTS.shenzhen.x} ${PORTS.shenzhen.y} C ${PORTS.shenzhen.x - 50} 280 200 350 180 400 S 150 460 ${PORTS.singapore.x} ${PORTS.singapore.y}`;
 
 /* ================================================================
- *  组件 — 浅色主题
+ *  实时规划演示路径（3 条不同路线，同一目的地：新加坡，均避开风险区）
+ *  3 分钟一个循环：每条约 55s + 5s 间隔 ≈ 180s
+ *
+ *  每条路径的真实数据：
+ *    西线避风: ~2650km, 5天, $3200, 碳排放 18.5t, 奖励系数 +1.0
+ *    中线直航: ~2400km, 4天, $2800, 碳排放 15.2t, 奖励系数 -0.5（穿越拥堵区边缘，扣分）
+ *    东线绕行: ~3500km, 7天, $4100, 碳排放 26.8t, 奖励系数 +0.3（绕远但安全）
  * ================================================================ */
-const Visualizer: React.FC = () => {
+const DEMO_PATHS = [
+  {
+    id: 'demo-1',
+    label: '路线A · 西线避风',
+    shortLabel: '西线',
+    d: `M ${PORTS.shenzhen.x} ${PORTS.shenzhen.y} C ${PORTS.shenzhen.x - 80} ${lat2y(18)} ${lon2x(108)} ${lat2y(14)} ${lon2x(107)} ${lat2y(10)} S ${lon2x(105.5)} ${lat2y(4)} ${PORTS.singapore.x} ${PORTS.singapore.y}`,
+    color: '#06b6d4',
+    tailwindColor: 'text-cyan-400',
+    duration: 55000,
+    totalDist: 2650,
+    totalDays: 5,
+    totalCost: 3200,
+    totalCarbon: 18.5,
+    rewardModifier: 1.0,
+    waypoints: [
+      { name: '深圳', lat: 22.45, lon: 114.05 },
+      { name: '海南南侧', lat: 18.0, lon: 109.5 },
+      { name: '越南沿海', lat: 14.0, lon: 108.0 },
+      { name: '金兰湾外海', lat: 10.0, lon: 107.0 },
+      { name: '新加坡', lat: 1.27, lon: 103.85 },
+    ],
+  },
+  {
+    id: 'demo-2',
+    label: '路线B · 中线直航',
+    shortLabel: '中线',
+    d: `M ${PORTS.shenzhen.x} ${PORTS.shenzhen.y} C ${PORTS.shenzhen.x - 40} ${lat2y(16)} ${lon2x(110)} ${lat2y(8)} ${lon2x(108)} ${lat2y(4)} S ${PORTS.singapore.x + 10} ${PORTS.singapore.y - 5} ${PORTS.singapore.x} ${PORTS.singapore.y}`,
+    color: '#8b5cf6',
+    tailwindColor: 'text-violet-400',
+    duration: 55000,
+    totalDist: 2400,
+    totalDays: 4,
+    totalCost: 2800,
+    totalCarbon: 15.2,
+    rewardModifier: -0.5,
+    waypoints: [
+      { name: '深圳', lat: 22.45, lon: 114.05 },
+      { name: '南海中部', lat: 16.0, lon: 112.0 },
+      { name: '南沙群岛西侧', lat: 8.0, lon: 110.0 },
+      { name: '赤道航道', lat: 4.0, lon: 108.0 },
+      { name: '新加坡', lat: 1.27, lon: 103.85 },
+    ],
+  },
+  {
+    id: 'demo-3',
+    label: '路线C · 东线绕行',
+    shortLabel: '东线',
+    d: `M ${PORTS.shenzhen.x} ${PORTS.shenzhen.y} C ${lon2x(119)} ${lat2y(19)} ${lon2x(120)} ${lat2y(10)} ${lon2x(116)} ${lat2y(3)} S ${PORTS.singapore.x + 30} ${PORTS.singapore.y + 10} ${PORTS.singapore.x} ${PORTS.singapore.y}`,
+    color: '#f59e0b',
+    tailwindColor: 'text-amber-400',
+    duration: 55000,
+    totalDist: 3500,
+    totalDays: 7,
+    totalCost: 4100,
+    totalCarbon: 26.8,
+    rewardModifier: 0.3,
+    waypoints: [
+      { name: '深圳', lat: 22.45, lon: 114.05 },
+      { name: '吕宋海峡', lat: 19.0, lon: 119.0 },
+      { name: '菲律宾东侧', lat: 10.0, lon: 120.0 },
+      { name: '苏禄海', lat: 3.0, lon: 116.0 },
+      { name: '新加坡', lat: 1.27, lon: 103.85 },
+    ],
+  },
+];
+
+/* localStorage key */
+const STORAGE_KEY = 'pathoptix-training-count';
+
+/* ================================================================
+ *  组件
+ * ================================================================ */
+interface VisualizerProps {
+  onPathStep?: (log: PathStepLog) => void;
+}
+
+const Visualizer: React.FC<VisualizerProps> = ({ onPathStep }) => {
   const chartTheme = useChartTheme();
   const lonLines = [105, 108, 111, 114, 117, 120];
   const latLines = [20, 18, 16, 14, 12, 10, 8, 6];
+
+  // 训练次数（从 localStorage 读取，默认 79）
+  const [trainCount, setTrainCount] = useState<number>(() => {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    return saved ? parseInt(saved, 10) : 79;
+  });
+
+  // 当前正在播放的演示路径索引（-1 = 未开始）
+  const [activeDemo, setActiveDemo] = useState(-1);
+  // 路径绘制进度 0~1
+  const [drawProgress, setDrawProgress] = useState(0);
+  // 已完成的历史路径（保留在地图上作为半透明轨迹）
+  const [completedPaths, setCompletedPaths] = useState<{ d: string; color: string; label: string }[]>([]);
+  const animRef = useRef<number>(0);
+  const startTimeRef = useRef<number>(0);
+  // 已发射的日志步进标记（避免重复发射）
+  const emittedStepsRef = useRef<Set<string>>(new Set());
+
+  // ─── 实时状态观测数据（联动路径动画） ───
+  const currentPath = activeDemo >= 0 ? DEMO_PATHS[activeDemo] : null;
+  const progress = drawProgress;
+
+  // 当前坐标：沿 waypoints 线性插值
+  const observerCoord = (() => {
+    if (!currentPath) return { lat: 22.45, lon: 114.05 };
+    const wp = currentPath.waypoints;
+    if (!wp || wp.length < 2) return { lat: 22.45, lon: 114.05 };
+    const segCount = wp.length - 1;
+    const clampedProgress = Math.max(0, Math.min(1, progress));
+    const segIdx = Math.min(Math.floor(clampedProgress * segCount), segCount - 1);
+    const segProgress = (clampedProgress * segCount) - segIdx;
+    const from = wp[segIdx];
+    const to = wp[segIdx + 1] || wp[segIdx];
+    if (!from || !to) return { lat: 22.45, lon: 114.05 };
+    return {
+      lat: from.lat + (to.lat - from.lat) * segProgress,
+      lon: from.lon + (to.lon - from.lon) * segProgress,
+    };
+  })();
+
+  // 即时步奖励：基础值 + 路线奖励系数 + 探索率加成
+  const epsilonNum = Math.max(0.01, 0.15 - trainCount * 0.001);
+  const epsilon = epsilonNum.toFixed(3);
+  const stepReward = currentPath
+    ? ((20 + progress * 15 + Math.sin(progress * Math.PI) * 8) * currentPath.rewardModifier + epsilonNum * 10).toFixed(1)
+    : '0.0';
+
+  // Q-Value：随进度增长
+  const qValue = currentPath
+    ? (80 + progress * currentPath.totalDist * 0.03).toFixed(1)
+    : '0.0';
+
+  const nowStr = () => {
+    const d = new Date();
+    return `${d.getHours().toString().padStart(2, '0')}:${d.getMinutes().toString().padStart(2, '0')}:${d.getSeconds().toString().padStart(2, '0')}`;
+  };
+
+  // 播放一轮 3 条路径（3 分钟循环）
+  const playCycle = useCallback(() => {
+    let demoIdx = 0;
+    emittedStepsRef.current.clear();
+    const roundCompleted: { d: string; color: string; label: string }[] = [];
+
+    const playNext = () => {
+      if (demoIdx >= DEMO_PATHS.length) {
+        // 一轮播放完毕，训练次数 +1
+        setTrainCount(prev => {
+          const next = prev + 1;
+          localStorage.setItem(STORAGE_KEY, String(next));
+          return next;
+        });
+        // 保留历史轨迹，开始下一轮
+        setCompletedPaths(prev => [...prev, ...roundCompleted].slice(-12));
+        demoIdx = 0;
+        emittedStepsRef.current.clear();
+        roundCompleted.length = 0;
+        setTimeout(playNext, 5000);
+        return;
+      }
+
+      const path = DEMO_PATHS[demoIdx];
+      setActiveDemo(demoIdx);
+      setDrawProgress(0);
+      startTimeRef.current = performance.now();
+
+      // 发射路径开始日志
+      const startKey = `${path.id}-start`;
+      if (!emittedStepsRef.current.has(startKey)) {
+        emittedStepsRef.current.add(startKey);
+        onPathStep?.({
+          id: Date.now(),
+          time: nowStr(),
+          msg: `▶ [${path.shortLabel}] 开始规划 ${path.label} → 新加坡`,
+          color: path.tailwindColor,
+          routeLabel: path.shortLabel,
+        });
+      }
+
+      const animate = (now: number) => {
+        const elapsed = now - startTimeRef.current;
+        const p = Math.min(elapsed / path.duration, 1);
+        setDrawProgress(p);
+
+        // 根据进度发射路径步进日志（每个中间 waypoint 触发一次）
+        const wp = path.waypoints;
+        for (let i = 1; i < wp.length - 1; i++) {
+          const stepThreshold = i / (wp.length - 1);
+          const stepKey = `${path.id}-wp-${i}`;
+          if (p >= stepThreshold && !emittedStepsRef.current.has(stepKey)) {
+            emittedStepsRef.current.add(stepKey);
+            // 距离 = 总距离 × 当前进度
+            const dist = Math.round(path.totalDist * stepThreshold);
+            // 步奖励 = 基础值 × 路线系数 + 探索率加成
+            const baseReward = 20 + stepThreshold * 15 + Math.sin(stepThreshold * Math.PI) * 8;
+            const reward = (baseReward * path.rewardModifier + epsilonNum * 10).toFixed(1);
+            const rewardSign = parseFloat(reward) >= 0 ? '+' : '';
+            // 已用天数 = 总天数 × 进度
+            const daysUsed = (path.totalDays * stepThreshold).toFixed(1);
+            onPathStep?.({
+              id: Date.now() + i,
+              time: nowStr(),
+              msg: `  ↳ [${path.shortLabel}] 途经 ${wp[i].name} (距起点 ${dist}km, 已用时 ${daysUsed}天, 步奖励 ${rewardSign}${reward})`,
+              color: path.tailwindColor,
+              routeLabel: path.shortLabel,
+            });
+          }
+        }
+
+        if (p < 1) {
+          animRef.current = requestAnimationFrame(animate);
+        } else {
+          // 路径完成日志
+          const endKey = `${path.id}-end`;
+          if (!emittedStepsRef.current.has(endKey)) {
+            emittedStepsRef.current.add(endKey);
+            onPathStep?.({
+              id: Date.now() + 100,
+              time: nowStr(),
+              msg: `✓ [${path.shortLabel}] ${path.label} 到达新加坡 (总距离 ${path.totalDist}km, ${path.totalDays}天, $${path.totalCost}, 碳排放 ${path.totalCarbon}t)`,
+              color: 'text-emerald-400',
+              routeLabel: path.shortLabel,
+            });
+          }
+          // 记录已完成路径
+          roundCompleted.push({ d: path.d, color: path.color, label: path.label });
+          demoIdx++;
+          setTimeout(playNext, 5000);
+        }
+      };
+
+      animRef.current = requestAnimationFrame(animate);
+    };
+
+    playNext();
+  }, [onPathStep]);
+
+  useEffect(() => {
+    playCycle();
+    return () => {
+      if (animRef.current) cancelAnimationFrame(animRef.current);
+    };
+  }, [playCycle]);
+
+  // 计算当前演示路径的 stroke-dasharray / stroke-dashoffset
+  const getDemoPathStyle = (idx: number) => {
+    if (activeDemo !== idx) {
+      return { opacity: 0, strokeDasharray: 'none', strokeDashoffset: 0 };
+    }
+    return {
+      opacity: 1,
+      strokeDasharray: '2000',
+      strokeDashoffset: 2000 * (1 - drawProgress),
+      transition: 'none',
+    };
+  };
 
   return (
     <div className="bg-bg-secondary rounded-3xl p-8 border border-border-default shadow-lg shadow-slate-200/50 flex-1 flex flex-col gap-6">
@@ -74,7 +332,40 @@ const Visualizer: React.FC = () => {
             </p>
           </div>
         </div>
+
+        {/* ─── 右上角：地区 + 训练次数 ─── */}
+        <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2 bg-bg-tertiary/50 px-4 py-2 rounded-xl border border-border-default">
+            <span className="text-xs text-text-muted font-bold">南海</span>
+            <span className="w-px h-4 bg-border-default" />
+            <span className="text-sm text-cyan-400 font-black font-mono">{trainCount}</span>
+            <span className="text-xs text-text-muted font-bold">次训练</span>
+          </div>
+        </div>
       </div>
+
+      {/* ─── 演示路径标签 ─── */}
+      {activeDemo >= 0 && (
+        <div className="flex items-center gap-3">
+          {DEMO_PATHS.map((p, i) => (
+            <div
+              key={p.id}
+              className={`flex items-center gap-2 px-3 py-1.5 rounded-lg border text-[10px] font-black uppercase tracking-wider transition-all duration-300 ${
+                activeDemo === i
+                  ? 'border-current bg-bg-tertiary/50 shadow-sm'
+                  : 'border-border-default bg-transparent opacity-40'
+              }`}
+              style={{ color: activeDemo === i ? p.color : undefined }}
+            >
+              <div className={`w-2 h-2 rounded-full ${activeDemo === i ? 'animate-pulse' : ''}`} style={{ backgroundColor: p.color }} />
+              {p.label}
+              {activeDemo === i && (
+                <span className="text-text-muted font-mono">{Math.round(drawProgress * 100)}%</span>
+              )}
+            </div>
+          ))}
+        </div>
+      )}
 
       {/* ─── SVG 地图主体 ─── */}
       <div className="flex-1 bg-sky-100 rounded-2xl border border-border-default relative overflow-hidden">
@@ -82,7 +373,6 @@ const Visualizer: React.FC = () => {
 
           {/* ══════ Defs ══════ */}
           <defs>
-            {/* 风暴区渐变 — 浅色模式下用 mix-blend-multiply 压暗 */}
             {STORMS.map((s, i) => (
               <React.Fragment key={`sd-${i}`}>
                 <radialGradient id={`storm-${i}`} cx="50%" cy="50%" r="50%">
@@ -98,7 +388,6 @@ const Visualizer: React.FC = () => {
               </React.Fragment>
             ))}
 
-            {/* 最优路径发光 */}
             <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
               <feGaussianBlur stdDeviation="5" result="blur" />
               <feMerge>
@@ -112,6 +401,14 @@ const Visualizer: React.FC = () => {
               <feMerge>
                 <feMergeNode in="blur" />
                 <feMergeNode in="blur" />
+                <feMergeNode in="blur" />
+                <feMergeNode in="SourceGraphic" />
+              </feMerge>
+            </filter>
+
+            <filter id="demo-glow" x="-50%" y="-50%" width="200%" height="200%">
+              <feGaussianBlur stdDeviation="4" result="blur" />
+              <feMerge>
                 <feMergeNode in="blur" />
                 <feMergeNode in="SourceGraphic" />
               </feMerge>
@@ -148,12 +445,9 @@ const Visualizer: React.FC = () => {
             {Object.entries(COASTLINES).map(([key, d]) => (
               d && <path key={key} d={d} fill={chartTheme.tooltipStyle.backgroundColor} stroke={chartTheme.axisStroke} strokeWidth="1.2" />
             ))}
-            {/* 南沙群岛散点 */}
             {[lon2x(112.5), lon2x(113.8), lon2x(114.3), lon2x(115.5), lon2x(112.0)].map((sx, si) => (
               <circle key={`sp-${si}`} cx={sx} cy={lat2y(9.5 + si * 0.7)} r="2" fill={chartTheme.tooltipStyle.backgroundColor} stroke={chartTheme.axisStroke} strokeWidth="0.5" />
             ))}
-
-            {/* 陆地标签 */}
             <text x={lon2x(107.5)} y={lat2y(20.5)} fill={chartTheme.axisTextColor} fontSize="9" fontWeight="800" letterSpacing="0.15em" style={{ fontFamily: 'monospace' }}>中国 CHINA</text>
             <text x={lon2x(105.8)} y={lat2y(14.5)} fill={chartTheme.axisTextColor} fontSize="8" fontWeight="700" letterSpacing="0.1em" style={{ fontFamily: 'monospace' }} transform={`rotate(-55,${lon2x(105.8)},${lat2y(14.5)})`}>VIETNAM</text>
             <text x={lon2x(120.0)} y={lat2y(17.0)} fill={chartTheme.axisTextColor} fontSize="8" fontWeight="700" letterSpacing="0.1em" style={{ fontFamily: 'monospace' }}>菲律宾</text>
@@ -161,23 +455,20 @@ const Visualizer: React.FC = () => {
             <text x={lon2x(109.0)} y={lat2y(19.8)} fill={chartTheme.axisTextColor} fontSize="7" fontWeight="700" style={{ fontFamily: 'monospace' }}>海南</text>
           </g>
 
-          {/* ══════ 4. 风暴区 (惩罚区) — mix-blend-multiply 压暗 ══════ */}
+          {/* ══════ 4. 风暴区 ══════ */}
           <g style={{ mixBlendMode: 'multiply' }}>
             {STORMS.map((s, i) => (
               <g key={`storm-${i}`}>
-                {/* 外圈呼吸光晕 */}
                 <ellipse cx={s.cx} cy={s.cy} rx={s.rx * 1.8} ry={s.ry * 1.8}
                   fill={`url(#storm-${i})`} opacity="0.7"
                   className="animate-pulse"
                   style={{ animationDuration: `${3 + i * 0.7}s`, animationDelay: `${i * 0.4}s` }}
                   transform={`rotate(${s.rot}, ${s.cx}, ${s.cy})`}
                 />
-                {/* 内核 (台风眼) */}
                 <ellipse cx={s.cx - 5} cy={s.cy - 5} rx={s.rx * 0.35} ry={s.ry * 0.35}
                   fill={`url(#storm-core-${i})`}
                   transform={`rotate(${s.rot}, ${s.cx}, ${s.cy})`}
                 />
-                {/* 虚线边界 */}
                 <ellipse cx={s.cx} cy={s.cy} rx={s.rx} ry={s.ry}
                   fill="none" stroke="#dc2626" strokeWidth="0.8"
                   strokeDasharray="4 3" opacity="0.45"
@@ -186,7 +477,6 @@ const Visualizer: React.FC = () => {
               </g>
             ))}
           </g>
-          {/* 风暴标签 (在 mix-blend 层外面, 避免颜色混合) */}
           {STORMS.map((s, i) => (
             <text key={`sl-${i}`} x={s.cx} y={s.cy - s.ry - 12} textAnchor="middle"
               fill="#dc2626" fontSize="8" fontWeight="800"
@@ -196,7 +486,7 @@ const Visualizer: React.FC = () => {
             </text>
           ))}
 
-          {/* ══════ 5. 历史探索轨迹 — 浅色模式用更深的灰蓝 ══════ */}
+          {/* ══════ 5. 历史探索轨迹 ══════ */}
           <g opacity="0.5">
             {EXPLORATION_PATHS.map((d, i) => (
               <path key={`exp-${i}`}
@@ -209,7 +499,6 @@ const Visualizer: React.FC = () => {
                 opacity={0.5 + (i % 3) * 0.15}
               />
             ))}
-            {/* 终止标记 */}
             <g>
               <line x1={STORMS[0].cx - 5} y1={STORMS[0].cy + 15} x2={STORMS[0].cx + 5} y2={STORMS[0].cy + 25} stroke="#dc2626" strokeWidth="1.5" opacity="0.6" />
               <line x1={STORMS[0].cx + 5} y1={STORMS[0].cy + 15} x2={STORMS[0].cx - 5} y2={STORMS[0].cy + 25} stroke="#dc2626" strokeWidth="1.5" opacity="0.6" />
@@ -220,21 +509,65 @@ const Visualizer: React.FC = () => {
             </g>
           </g>
 
-          {/* ══════ 6. 最优策略路径 (发光贝塞尔曲线) ══════ */}
-          {/* 外发光层 */}
+          {/* ══════ 6. 最优策略路径 ══════ */}
           <path d={POLICY_D} fill="none" stroke="#0891b2" strokeWidth="12"
             strokeLinecap="round" strokeOpacity="0.1" filter="url(#glow-strong)" />
-          {/* 中发光层 */}
           <path d={POLICY_D} fill="none" stroke="#06b6d4" strokeWidth="5"
             strokeLinecap="round" strokeOpacity="0.25" filter="url(#glow)" />
-          {/* 主路径 */}
           <path d={POLICY_D} fill="none" stroke="#06b6d4" strokeWidth="2.5"
             strokeLinecap="round" filter="url(#glow)" />
-          {/* 虚线脉冲 */}
           <path d={POLICY_D} fill="none" stroke="#22d3ee" strokeWidth="2"
             strokeLinecap="round" strokeDasharray="2 10" strokeOpacity="0.7">
             <animate attributeName="stroke-dashoffset" from="0" to="-24" dur="2s" repeatCount="indefinite" />
           </path>
+
+          {/* ══════ 6.5 历史尝试轨迹（已完成的路径保留为半透明实线） ══════ */}
+          {completedPaths.map((cp, i) => (
+            <path
+              key={`hist-${i}`}
+              d={cp.d}
+              fill="none"
+              stroke={cp.color}
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeOpacity="0.3"
+            />
+          ))}
+
+          {/* ══════ 6.6 实时规划演示路径（3 条动画） ══════ */}
+          {DEMO_PATHS.map((demo, i) => (
+            <g key={demo.id}>
+              <path
+                d={demo.d}
+                fill="none"
+                stroke={demo.color}
+                strokeWidth="8"
+                strokeLinecap="round"
+                strokeOpacity="0.15"
+                filter="url(#demo-glow)"
+                style={getDemoPathStyle(i)}
+              />
+              <path
+                d={demo.d}
+                fill="none"
+                stroke={demo.color}
+                strokeWidth="2.5"
+                strokeLinecap="round"
+                filter="url(#demo-glow)"
+                style={getDemoPathStyle(i)}
+              />
+              {activeDemo === i && drawProgress > 0 && drawProgress < 1 && (
+                <circle r="5" fill={demo.color} filter="url(#demo-glow)">
+                  <animateMotion
+                    key={`${demo.id}-${drawProgress}`}
+                    dur={demo.duration + 'ms'}
+                    repeatCount="1"
+                    path={demo.d}
+                  />
+                </circle>
+              )}
+            </g>
+          ))}
 
           {/* ══════ 7. 港口标注 ══════ */}
           {Object.entries(PORTS).map(([key, p]) => {
@@ -290,7 +623,7 @@ const Visualizer: React.FC = () => {
           </text>
         </svg>
 
-        {/* ══════ 左下角图例 — 浅色毛玻璃 ══════ */}
+        {/* ══════ 左下角图例 ══════ */}
         <div className="absolute bottom-4 left-4 flex items-center gap-5 bg-white/80 backdrop-blur-md px-5 py-2.5 rounded-full border border-border-default shadow-lg shadow-slate-200/50 z-10">
           <div className="flex items-center gap-2">
             <div className="w-5 h-[2px] bg-cyan-500 shadow-[0_0_6px_rgba(6,182,212,0.5)] rounded-full" />
@@ -306,17 +639,23 @@ const Visualizer: React.FC = () => {
           </div>
         </div>
 
-        {/* ══════ 右侧信息浮层 — 浅色毛玻璃 ══════ */}
-        <div className="absolute top-4 right-4 bg-white/80 backdrop-blur-md p-5 rounded-2xl border border-border-default space-y-2.5 min-w-[210px] shadow-lg shadow-slate-200/50 z-10">
+        {/* ══════ 右侧信息浮层（动态联动路径动画） ══════ */}
+        <div className="absolute top-4 right-4 bg-white/80 backdrop-blur-md p-5 rounded-2xl border border-border-default space-y-2.5 min-w-[220px] shadow-lg shadow-slate-200/50 z-10">
           <div className="text-[8px] text-text-muted font-black uppercase tracking-[0.2em] mb-3 border-b border-border-default pb-2">
             实时状态观测 · OBSERVER
           </div>
-          <Row label="当前坐标" value="Lat: 11.2°N, Lon: 111.8°E" color="text-blue-600" />
-          <Row label="即时步奖励" value="+24.50" color="text-emerald-600" />
-          <Row label="探索率 ε" value="0.05 ↓" color="text-amber-600" />
+          <Row label="当前坐标" value={`Lat: ${observerCoord.lat.toFixed(1)}°N, Lon: ${observerCoord.lon.toFixed(1)}°E`} color="text-blue-600" />
+          <Row label="即时步奖励" value={`+${stepReward}`} color="text-emerald-600" />
+          <Row label="探索率 ε" value={`${epsilon} ↓`} color="text-amber-600" />
           <div className="pt-2 border-t border-border-default">
-            <Row label="最大 Q-Value" value="128.4" color="text-cyan-600" />
+            <Row label="最大 Q-Value" value={qValue} color="text-cyan-600" />
           </div>
+          {currentPath && (
+            <div className="pt-2 border-t border-border-default">
+              <Row label="当前路线" value={currentPath.shortLabel} color={currentPath.tailwindColor} />
+              <Row label="已行距离" value={`${Math.round(currentPath.totalDist * progress)} / ${currentPath.totalDist} km`} color="text-text-secondary" />
+            </div>
+          )}
         </div>
       </div>
     </div>

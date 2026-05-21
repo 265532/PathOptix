@@ -2,15 +2,27 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Terminal } from 'lucide-react';
 import { useTheme } from '@hooks/useTheme';
+import type { PathStepLog } from './TrainingOptimizationView';
 
 interface LogEntry {
   id: number;
   time: string;
   msg: string;
   color: string;
+  routeLabel?: string;
 }
 
-const LogPanel: React.FC = () => {
+interface LogPanelProps {
+  pathStepLogs?: PathStepLog[];
+}
+
+const ROUTE_COLORS: Record<string, string> = {
+  '西线': 'bg-cyan-400',
+  '中线': 'bg-violet-400',
+  '东线': 'bg-amber-400',
+};
+
+const LogPanel: React.FC<LogPanelProps> = ({ pathStepLogs = [] }) => {
   const { isDark } = useTheme();
   const [logs, setLogs] = useState<LogEntry[]>([
     { id: 1, color: "text-emerald-500", time: "14:24:01", msg: "环境初始化成功: Warehouse-Grid-v4" },
@@ -22,11 +34,34 @@ const LogPanel: React.FC = () => {
     { id: 7, color: "text-slate-400", time: "14:24:12", msg: "训练回合 750: R=138.2 L=0.0019" },
   ]);
 
-  const logEndRef = useRef<HTMLDivElement>(null);
+  const logContainerRef = useRef<HTMLDivElement>(null);
+  const isAutoScrollRef = useRef(true);
 
-  // 移除了在 logs 改变时调用 scrollToBottom 的 useEffect
-  // 这样用户在查看旧日志时，新日志的产生不会强迫页面向下滚动
+  // 路径步进日志注入
+  useEffect(() => {
+    if (pathStepLogs.length === 0) return;
+    const latestLog = pathStepLogs[pathStepLogs.length - 1];
+    setLogs(prev => {
+      if (prev.some(l => l.id === latestLog.id)) return prev;
+      return [...prev.slice(-199), { ...latestLog, routeLabel: latestLog.routeLabel }];
+    });
+  }, [pathStepLogs]);
 
+  // 自动滚动到底部（仅在用户未手动上翻时）
+  useEffect(() => {
+    if (isAutoScrollRef.current && logContainerRef.current) {
+      logContainerRef.current.scrollTop = logContainerRef.current.scrollHeight;
+    }
+  }, [logs]);
+
+  // 检测用户是否手动上翻
+  const handleScroll = () => {
+    if (!logContainerRef.current) return;
+    const { scrollTop, scrollHeight, clientHeight } = logContainerRef.current;
+    isAutoScrollRef.current = scrollHeight - scrollTop - clientHeight < 40;
+  };
+
+  // 常规训练日志（低频，60s 一次）
   useEffect(() => {
     const logMessages = [
       { msg: "执行模型权重全局下发...", color: "text-blue-400" },
@@ -43,8 +78,7 @@ const LogPanel: React.FC = () => {
       const randomMsg = logMessages[Math.floor(Math.random() * logMessages.length)];
       const now = new Date();
       const timeStr = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}:${now.getSeconds().toString().padStart(2, '0')}`;
-      
-      // 动态填充变量
+
       let finalMsg = randomMsg.msg
         .replace('{episode}', Math.floor(Math.random() * 1000 + 750).toString())
         .replace('{reward}', (Math.random() * 50 + 130).toFixed(1))
@@ -54,18 +88,18 @@ const LogPanel: React.FC = () => {
         id: Date.now(),
         time: timeStr,
         msg: finalMsg,
-        color: randomMsg.color
+        color: randomMsg.color,
       };
 
-      setLogs(prev => [...prev.slice(-49), newLog]); // 保持最近50条
-    }, 30000); // 30秒
+      setLogs(prev => [...prev.slice(-199), newLog]);
+    }, 60000);
 
     return () => clearInterval(interval);
   }, []);
 
   return (
-    <div className="bg-bg-secondary rounded-2xl p-6 border border-border-default flex flex-col gap-4 flex-1 overflow-hidden">
-      <div className="flex justify-between items-center">
+    <div className="bg-bg-secondary rounded-2xl p-6 border border-border-default flex flex-col h-[700px] overflow-hidden">
+      <div className="flex justify-between items-center shrink-0">
         <div className="flex items-center gap-2 text-text-secondary">
           <Terminal size={16} className="text-blue-400" />
           <span className="text-xs font-bold tracking-wider uppercase">实时日志</span>
@@ -76,20 +110,32 @@ const LogPanel: React.FC = () => {
         </div>
       </div>
 
-      <div className={`flex-1 rounded-xl p-4 font-mono text-[10px] space-y-2 overflow-y-auto scrollbar-hide border border-border-default shadow-inner min-h-[200px] ${isDark ? 'bg-black/40' : 'bg-bg-elevated'}`}>
-        {logs.map((log) => (
-          <LogLine key={log.id} color={log.color} time={log.time} msg={log.msg} />
+      <div
+        ref={logContainerRef}
+        onScroll={handleScroll}
+        className={`flex-1 min-h-0 rounded-xl p-4 font-mono text-[10px] space-y-1.5 overflow-y-auto border border-border-default shadow-inner mt-4 ${isDark ? 'bg-black/40' : 'bg-bg-elevated'}`}
+      >
+        {logs.map((log: LogEntry) => (
+          <LogLine key={log.id} color={log.color} time={log.time} msg={log.msg} routeLabel={log.routeLabel} />
         ))}
-        {/* 保持引用但不自动触发滚动 */}
-        <div ref={logEndRef} className="animate-pulse text-blue-500 font-black h-4 pt-1">_</div>
       </div>
     </div>
   );
 };
 
-const LogLine = ({ color, time, msg }: any) => (
-  <div className="flex gap-3 leading-relaxed animate-in fade-in slide-in-from-bottom-1 duration-300">
+interface LogLineProps {
+  color: string;
+  time: string;
+  msg: string;
+  routeLabel?: string;
+}
+
+const LogLine: React.FC<LogLineProps> = ({ color, time, msg, routeLabel }) => (
+  <div className="flex gap-2 leading-relaxed animate-in fade-in slide-in-from-bottom-1 duration-300">
     <span className="text-text-muted shrink-0">[{time}]</span>
+    {routeLabel && (
+      <span className={`shrink-0 w-1.5 h-1.5 rounded-full mt-1.5 ${ROUTE_COLORS[routeLabel] || 'bg-text-muted'}`} />
+    )}
     <span className={color}>{msg}</span>
   </div>
 );
