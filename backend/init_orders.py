@@ -13,11 +13,14 @@ try:
     existing_count = db.query(Order).count()
     print(f"当前数据库中有 {existing_count} 条订单记录")
 
+    if existing_count > 0:
+        db.query(Order).delete()
+        db.commit()
+        print(f"已清空原有订单数据")
+
     for order_data in orders_data:
-        existing = db.query(Order).filter(Order.id == order_data['id']).first()
-        if not existing:
-            order = Order(**order_data)
-            db.add(order)
+        order = Order(**order_data)
+        db.add(order)
 
     db.commit()
     print(f"成功添加 {len(orders_data)} 条订单记录到数据库")
