@@ -41,7 +41,7 @@ const TrainingOptimizationView: React.FC = () => {
         </div>
 
         {/* 右侧：历史与日志 — min-h-0 确保 flex 子元素可收缩 */}
-        <div className="w-full lg:w-80 flex flex-col gap-3 md:gap-6 lg:shrink-0 min-h-0">
+        <div className="w-full xl:w-80 flex flex-col gap-3 md:gap-6 xl:shrink-0 min-h-0">
           <HistoryPanel />
           <LogPanel pathStepLogs={pathStepLogs} />
         </div>
