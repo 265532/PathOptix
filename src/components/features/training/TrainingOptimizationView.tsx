@@ -27,9 +27,9 @@ const TrainingOptimizationView: React.FC = () => {
     <div className="p-3 md:p-6 bg-bg-primary min-h-full flex flex-col gap-3 md:gap-6 animate-in fade-in duration-700">
       <BottomMetrics />
 
-      <div className="flex flex-col lg:flex-row flex-1 gap-3 md:gap-6 min-h-0">
+      <div className="flex flex-col xl:flex-row flex-1 gap-3 md:gap-6 min-h-0">
         {/* 左侧：配置与评估 */}
-        <div className="w-full lg:w-64 flex flex-col gap-3 md:gap-6 lg:shrink-0">
+        <div className="w-full xl:w-64 flex flex-col gap-3 md:gap-6 xl:shrink-0">
           <ParamConfig />
           <ModelEval />
         </div>
