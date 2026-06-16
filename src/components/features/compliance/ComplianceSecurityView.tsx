@@ -17,9 +17,9 @@ const alerts = [
 
 const ComplianceSecurityView: React.FC = () => {
   return (
-    <div className="p-8 animate-in fade-in duration-700 space-y-6">
+    <div className="p-4 md:p-6 lg:p-8 animate-in fade-in duration-700 space-y-4 md:space-y-6">
       {/* Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
         <div className="flex items-center gap-4">
           <div className="w-10 h-10 bg-gradient-to-br from-red-500/20 to-orange-500/20 rounded-2xl flex items-center justify-center border border-red-500/20">
             <Globe size={18} className="text-orange-400" />
@@ -36,30 +36,30 @@ const ComplianceSecurityView: React.FC = () => {
       </div>
 
       {/* Metrics Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
         {riskMetrics.map((m, i) => (
-          <div key={i} className={`${m.bg} border ${m.border} rounded-2xl p-6 space-y-2`}>
-            <span className="text-[10px] font-black text-text-muted uppercase tracking-widest">{m.label}</span>
-            <div className="flex items-baseline gap-2">
-              <span className={`text-3xl font-black ${m.color} italic tracking-tighter`}>{m.value}</span>
-              <span className="text-xs text-text-muted font-bold">{m.unit}</span>
+          <div key={i} className={`${m.bg} border ${m.border} rounded-2xl p-4 md:p-6 space-y-1 md:space-y-2`}>
+            <span className="text-[9px] md:text-[10px] font-black text-text-muted uppercase tracking-widest">{m.label}</span>
+            <div className="flex items-baseline gap-1 md:gap-2">
+              <span className={`text-2xl md:text-3xl font-black ${m.color} italic tracking-tighter`}>{m.value}</span>
+              <span className="text-[10px] md:text-xs text-text-muted font-bold">{m.unit}</span>
             </div>
           </div>
         ))}
       </div>
 
       {/* Alerts Panel */}
-      <div className="bg-bg-secondary border border-border-default rounded-3xl p-8">
-        <div className="flex items-center gap-3 mb-6">
+      <div className="bg-bg-secondary border border-border-default rounded-3xl p-4 md:p-8">
+        <div className="flex items-center gap-3 mb-4 md:mb-6">
           <AlertTriangle size={14} className="text-amber-400" />
           <span className="text-[10px] font-black text-text-muted uppercase tracking-widest">实时预警</span>
         </div>
-        <div className="space-y-4">
+        <div className="space-y-3 md:space-y-4">
           {alerts.map((a, i) => (
-            <div key={i} className="flex items-start gap-4 p-4 bg-bg-tertiary/20 rounded-xl border border-border-default">
+            <div key={i} className="flex items-start gap-3 md:gap-4 p-3 md:p-4 bg-bg-tertiary/20 rounded-xl border border-border-default">
               <span className="text-[10px] font-mono text-text-muted mt-0.5 shrink-0">{a.time}</span>
               <span className={`text-[10px] font-black px-2 py-0.5 rounded-full bg-bg-tertiary shrink-0 ${a.color}`}>{a.level}</span>
-              <p className="text-xs text-text-secondary font-medium leading-relaxed">{a.msg}</p>
+              <p className="text-[11px] md:text-xs text-text-secondary font-medium leading-relaxed">{a.msg}</p>
             </div>
           ))}
         </div>

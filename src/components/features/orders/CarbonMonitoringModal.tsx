@@ -356,8 +356,8 @@ const CarbonMonitoringModal: React.FC<CarbonMonitoringModalProps> = ({ isOpen, o
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-md animate-in fade-in duration-300">
-      <div className="bg-bg-elevated w-full max-w-xl rounded-[40px] border border-border-default shadow-[0_32px_128px_-16px_rgba(0,0,0,1)] overflow-hidden flex flex-col transform animate-in zoom-in-95 duration-300">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-md animate-in fade-in duration-300 p-0 md:p-4">
+      <div className="bg-bg-elevated w-full h-full md:w-auto md:h-auto md:max-w-xl rounded-none md:rounded-[40px] border border-border-default shadow-[0_32px_128px_-16px_rgba(0,0,0,1)] overflow-hidden flex flex-col transform animate-in zoom-in-95 duration-300">
         
         {/* Header */}
         <div className="px-8 py-8 flex justify-between items-center">
@@ -378,7 +378,7 @@ const CarbonMonitoringModal: React.FC<CarbonMonitoringModalProps> = ({ isOpen, o
           </button>
         </div>
 
-        <div className="px-8 pb-10 space-y-8">
+        <div className="flex-1 overflow-y-auto px-6 md:px-8 pb-10 space-y-8">
           
           {/* Top Stats Cards */}
           <div className="grid grid-cols-3 gap-4">
@@ -404,8 +404,8 @@ const CarbonMonitoringModal: React.FC<CarbonMonitoringModalProps> = ({ isOpen, o
           </div>
 
           {/* Middle Section: Trend and AI Advice */}
-          <div className="grid grid-cols-12 gap-6">
-            <div className="col-span-7 bg-bg-elevated/40 rounded-3xl p-6 border border-border-default flex flex-col justify-between h-44">
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
+            <div className="md:col-span-7 bg-bg-elevated/40 rounded-3xl p-6 border border-border-default flex flex-col justify-between h-44">
               <div className="flex justify-between items-center">
                 <span className="text-[10px] font-black text-text-secondary uppercase tracking-widest">每周排放趋势</span>
                 <span className="text-[9px] text-text-muted font-bold">最近4周</span>
@@ -432,7 +432,7 @@ const CarbonMonitoringModal: React.FC<CarbonMonitoringModalProps> = ({ isOpen, o
               </div>
             </div>
 
-            <div className="col-span-5 bg-emerald-500/5 border border-emerald-500/20 rounded-3xl p-6 flex flex-col gap-4">
+            <div className="md:col-span-5 bg-emerald-500/5 border border-emerald-500/20 rounded-3xl p-6 flex flex-col gap-4">
               <div className="flex items-center gap-2 text-emerald-400">
                 <Cpu size={16} />
                 <span className="text-[10px] font-black uppercase tracking-widest">AI 减排建议</span>

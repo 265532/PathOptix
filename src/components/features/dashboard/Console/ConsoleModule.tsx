@@ -52,37 +52,38 @@ const ConsoleModule: React.FC = () => {
   };
 
   return (
-    <div className={`bg-bg-secondary/80 backdrop-blur-2xl rounded-[40px] border p-10 shadow-[0_32px_64px_-16px_rgba(0,0,0,0.5)] relative overflow-hidden group ${isDark ? 'border-white/[0.06]' : 'border-border-default/40'}`}>
+    <div className={`bg-bg-secondary/80 backdrop-blur-2xl rounded-[24px] md:rounded-[40px] border p-4 md:p-10 shadow-[0_32px_64px_-16px_rgba(0,0,0,0.5)] relative overflow-hidden group ${isDark ? 'border-white/[0.06]' : 'border-border-default/40'}`}>
       {/* 极光背景装饰 */}
       <div className="absolute -top-24 -right-24 w-96 h-96 bg-cyan-500/10 blur-[120px] rounded-full -z-10 group-hover:bg-cyan-500/15 transition-all duration-1000" />
       <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-blue-600/5 blur-[120px] rounded-full -z-10" />
 
-      <div className="flex flex-col xl:flex-row gap-12 items-stretch">
+      <div className="flex flex-col xl:flex-row gap-6 md:gap-12 items-stretch">
         {/* 左侧：系统动力中心 */}
-        <div className="flex-[1.5] space-y-8">
-          <div className="flex justify-between items-center">
-            <div className="flex items-center gap-4">
-              <div className="p-3.5 bg-gradient-to-br from-cyan-500/20 to-blue-600/20 rounded-2xl text-cyan-400 border border-cyan-500/30 shadow-[0_0_20px_rgba(6,182,212,0.1)]">
-                <Radio size={24} className="animate-pulse" />
+        <div className="flex-[1.5] space-y-4 md:space-y-8">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+            <div className="flex items-center gap-3 md:gap-4">
+              <div className="p-2.5 md:p-3.5 bg-gradient-to-br from-cyan-500/20 to-blue-600/20 rounded-xl md:rounded-2xl text-cyan-400 border border-cyan-500/30 shadow-[0_0_20px_rgba(6,182,212,0.1)]">
+                <Radio size={20} className="md:hidden animate-pulse" />
+                <Radio size={24} className="hidden md:block animate-pulse" />
               </div>
               <div>
-                <h3 className="text-lg font-black text-text-primary uppercase tracking-[0.2em]">综合指挥控制台</h3>
+                <h3 className="text-sm md:text-lg font-black text-text-primary uppercase tracking-[0.1em] md:tracking-[0.2em]">综合指挥控制台</h3>
                 <div className="flex items-center gap-2 mt-1">
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-ping" />
-                  <p className="text-[10px] text-text-muted font-bold uppercase tracking-widest">PATHOPTIX RL &amp; MULTI-AGENT ENGINE V2.4</p>
+                  <p className="text-[8px] md:text-[10px] text-text-muted font-bold uppercase tracking-widest">PATHOPTIX RL &amp; MULTI-AGENT ENGINE V2.4</p>
                 </div>
               </div>
             </div>
-            <div className="flex items-center gap-6">
+            <div className="flex items-center gap-4 md:gap-6">
               <div className="text-right">
-                <div className="text-[9px] text-text-muted font-black uppercase tracking-widest mb-1">当前决策时延</div>
+                <div className="text-[8px] md:text-[9px] text-text-muted font-black uppercase tracking-widest mb-1">当前决策时延</div>
                 <div className="text-sm font-mono font-black text-cyan-400 transition-all duration-500 tabular-nums">
                   {latency.toFixed(3)}ms
                 </div>
               </div>
               <div className="h-8 w-px bg-bg-tertiary" />
               <div className="text-right">
-                <div className="text-[9px] text-text-muted font-black uppercase tracking-widest mb-1">活跃 Agent 数量</div>
+                <div className="text-[8px] md:text-[9px] text-text-muted font-black uppercase tracking-widest mb-1">活跃 Agent 数量</div>
                 <div className="text-sm font-mono font-black text-text-primary transition-all duration-500 tabular-nums">
                   {nodes}
                 </div>
@@ -92,7 +93,7 @@ const ConsoleModule: React.FC = () => {
           
           <SystemPulse />
           
-          <div className="grid grid-cols-4 gap-4">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
             <QuickStat icon={<Zap size={14} />} label="并行并发规划" value={throughput.toFixed(0)} unit="Orders/s" color="text-cyan-400" />
             <QuickStat icon={<Activity size={14} />} label="PPO 全局均值" value={`+${reward}`} unit="Avg Reward" color="text-emerald-400" />
             <QuickStat icon={<Timer size={14} />} label="大模型推理/RAG耗时" value="245" unit="ms" color="text-blue-400" />
@@ -104,7 +105,7 @@ const ConsoleModule: React.FC = () => {
         <div className={`hidden xl:block w-px bg-gradient-to-b from-transparent via-border-default to-transparent mx-2 ${isDark ? '' : 'opacity-40'}`} />
 
         {/* 右侧：集群矩阵与核心指令 */}
-        <div className="flex-1 flex flex-col gap-10">
+        <div className="flex-1 flex flex-col gap-6 md:gap-10">
           <div className="flex-1 space-y-6">
             <div className="flex items-center justify-between text-text-muted border-b border-border-default/50 pb-4">
               <div className="flex items-center gap-3">
@@ -121,7 +122,7 @@ const ConsoleModule: React.FC = () => {
             <NodeGrid />
           </div>
 
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <ControlToggle 
           icon={<Zap size={14} />} 
           label="Agent 全托管模式" 

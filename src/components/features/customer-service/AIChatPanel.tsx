@@ -181,16 +181,17 @@ const AIChatPanel: React.FC<AIChatPanelProps> = ({ orderContext, agentTrigger = 
   };
 
   return (
-    <div className="bg-bg-tertiary rounded-[32px] border border-border-default p-8 flex flex-col h-[600px] shadow-2xl relative overflow-hidden">
+    <div className="bg-bg-tertiary rounded-2xl md:rounded-[32px] border border-border-default p-4 md:p-8 flex flex-col h-[500px] md:h-[600px] shadow-2xl relative overflow-hidden">
       {/* Header */}
-      <div className="flex justify-between items-center mb-8">
-        <div className="flex items-center gap-4">
-          <div className="w-12 h-12 bg-blue-600/20 rounded-2xl flex items-center justify-center text-blue-400 border border-blue-500/20">
-            <Headset size={24} />
+      <div className="flex justify-between items-center mb-4 md:mb-8">
+        <div className="flex items-center gap-2 md:gap-4">
+          <div className="w-10 h-10 md:w-12 md:h-12 bg-blue-600/20 rounded-xl md:rounded-2xl flex items-center justify-center text-blue-400 border border-blue-500/20">
+            <Headset size={20} className="md:hidden" />
+            <Headset size={24} className="hidden md:block" />
           </div>
           <div>
-            <h3 className="text-lg font-black text-text-primary tracking-tight">7×24h 智能在线</h3>
-            <p className="text-xs text-text-muted font-bold">
+            <h3 className="text-base md:text-lg font-black text-text-primary tracking-tight">7×24h 智能在线</h3>
+            <p className="text-[10px] md:text-xs text-text-muted font-bold">
               {isLoading ? 'AI 正在思考...' : 'AI 已就绪，为您实时解答'}
             </p>
           </div>
@@ -237,7 +238,7 @@ const AIChatPanel: React.FC<AIChatPanelProps> = ({ orderContext, agentTrigger = 
       </div>
 
       {/* Input Area */}
-      <div className="mt-8 relative">
+      <div className="mt-4 md:mt-8 relative">
         <input
           type="text"
           placeholder="输入您的问题..."

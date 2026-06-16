@@ -38,7 +38,7 @@ const AuditChange: React.FC = () => {
   };
 
   return (
-    <div className="bg-bg-secondary border border-border-default rounded-3xl p-8 flex flex-col gap-6 h-full relative">
+    <div className="bg-bg-secondary border border-border-default rounded-3xl p-4 md:p-8 flex flex-col gap-4 md:gap-6 h-full relative">
       {/* 成功提示 */}
       {showSuccess && (
         <div className="absolute top-6 right-6 bg-emerald-500/10 border border-emerald-500/30 rounded-lg px-4 py-3 flex items-center gap-3 shadow-lg shadow-emerald-500/10 animate-in fade-in slide-in-from-top-2 duration-300">
@@ -56,7 +56,7 @@ const AuditChange: React.FC = () => {
         </div>
       </div>
 
-      <div className="flex gap-4 relative">
+      <div className="flex flex-col sm:flex-row gap-3 md:gap-4 relative">
         {/* 类型下拉框 */}
         <div className="flex-1 relative" ref={typeRef}>
           <div 
@@ -135,8 +135,8 @@ const AuditChange: React.FC = () => {
         </p>
       </div>
 
-      <div className="overflow-hidden">
-        <table className="w-full">
+      <div className="overflow-x-auto -mx-4 md:mx-0">
+        <table className="w-full min-w-[400px]">
           <thead>
             <tr className="border-b border-border-default">
               <th className="pb-4 text-left text-[10px] font-black text-text-muted uppercase tracking-widest">ID</th>

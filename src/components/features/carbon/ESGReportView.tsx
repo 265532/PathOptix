@@ -338,56 +338,56 @@ const ESGReportView: React.FC<ESGReportViewProps> = ({ isOpen, onClose }) => {
       />
       
       {/* 模态框主体 */}
-      <div className="bg-bg-modal w-full max-w-6xl h-[90vh] rounded-[40px] border border-border-default shadow-[0_32px_128px_-16px_rgba(0,0,0,1)] overflow-hidden flex flex-col relative transform animate-in zoom-in-95 duration-300">
-        
+      <div className="bg-bg-modal w-full max-w-6xl h-[90vh] rounded-[24px] md:rounded-[40px] border border-border-default shadow-[0_32px_128px_-16px_rgba(0,0,0,1)] overflow-hidden flex flex-col relative transform animate-in zoom-in-95 duration-300">
+
         {/* 顶部标题栏 */}
-        <div className="px-10 py-8 border-b border-border-default flex justify-between items-center bg-bg-modal/80 sticky top-0 z-10 backdrop-blur-xl">
-          <div className="flex items-center gap-5">
-            <div className="p-3 bg-emerald-500/10 border border-emerald-500/20 rounded-2xl text-emerald-400">
-              <Leaf size={24} fill="currentColor" fillOpacity={0.2} />
+        <div className="px-4 md:px-10 py-4 md:py-8 border-b border-border-default flex justify-between items-center bg-bg-modal/80 sticky top-0 z-10 backdrop-blur-xl">
+          <div className="flex items-center gap-3 md:gap-5">
+            <div className="p-2 md:p-3 bg-emerald-500/10 border border-emerald-500/20 rounded-2xl text-emerald-400">
+              <Leaf size={20} fill="currentColor" fillOpacity={0.2} />
             </div>
             <div>
-              <h2 className="text-2xl font-black text-text-primary tracking-tight italic">企业可持续性 (ESG) 年度分析报告</h2>
+              <h2 className="text-lg md:text-2xl font-black text-text-primary tracking-tight italic">企业可持续性 (ESG) 年度分析报告</h2>
               <div className="flex items-center gap-2 mt-1">
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                <p className="text-[10px] text-text-muted font-black uppercase tracking-widest">Global Governance & Environmental Impact Summary</p>
+                <p className="text-[9px] md:text-[10px] text-text-muted font-black uppercase tracking-widest">Global Governance & Environmental Impact Summary</p>
               </div>
             </div>
           </div>
-          
-          <div className="flex items-center gap-4">
-            <button className="p-3 bg-bg-elevated border border-border-default rounded-xl text-text-muted hover:text-cyan-400 transition-all duration-300">
-              <Share2 size={20} />
+
+          <div className="flex items-center gap-2 md:gap-4">
+            <button className="p-2 md:p-3 bg-bg-elevated border border-border-default rounded-xl text-text-muted hover:text-cyan-400 transition-all duration-300">
+              <Share2 size={18} />
             </button>
-            <button 
+            <button
               onClick={onClose}
-              className="w-12 h-12 rounded-full bg-bg-elevated border border-border-default flex items-center justify-center text-text-muted hover:text-text-primary hover:bg-red-500/10 hover:border-red-500/20 transition-all duration-300 active:scale-90 shadow-xl"
+              className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-bg-elevated border border-border-default flex items-center justify-center text-text-muted hover:text-text-primary hover:bg-red-500/10 hover:border-red-500/20 transition-all duration-300 active:scale-90 shadow-xl"
             >
-              <X size={24} />
+              <X size={20} />
             </button>
           </div>
         </div>
 
         {/* 滚动内容区 */}
-        <div className="flex-1 overflow-y-auto p-10 space-y-12 scrollbar-hide">
-          
+        <div className="flex-1 overflow-y-auto p-4 md:p-10 space-y-8 md:space-y-12 scrollbar-hide">
+
           {/* 1. 核心指标概览 */}
-          <div className="grid grid-cols-12 gap-8">
-            <div className="col-span-3 bg-bg-elevated/40 border border-border-default rounded-[32px] p-8 flex flex-col items-center justify-center">
-              <div className="relative w-32 h-32 flex items-center justify-center">
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-8">
+            <div className="md:col-span-3 bg-bg-elevated/40 border border-border-default rounded-[24px] md:rounded-[32px] p-6 md:p-8 flex flex-col items-center justify-center">
+              <div className="relative w-24 h-24 md:w-32 md:h-32 flex items-center justify-center">
                 <svg viewBox="0 0 100 100" className="w-full h-full transform -rotate-90">
                   <circle cx="50" cy="50" r="45" stroke={chartTheme.axisStroke} strokeWidth="8" fill="transparent" />
                   <circle cx="50" cy="50" r="45" stroke="#10b981" strokeWidth="8" fill="transparent" strokeDasharray="282.7" strokeDashoffset={282.7 * (1 - 0.88)} strokeLinecap="round" />
                 </svg>
-                <span className="absolute text-4xl font-black text-text-primary italic">88%</span>
+                <span className="absolute text-3xl md:text-4xl font-black text-text-primary italic">88%</span>
               </div>
-              <div className="mt-6 text-center">
+              <div className="mt-4 md:mt-6 text-center">
                  <div className="text-[10px] text-text-muted font-black uppercase tracking-widest">ESG 综合评分</div>
               </div>
             </div>
 
-            <div className="col-span-9 grid grid-cols-2 gap-8">
-              <div className="bg-bg-elevated/40 border border-border-default rounded-[32px] p-8 space-y-4">
+            <div className="md:col-span-9 grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-8">
+              <div className="bg-bg-elevated/40 border border-border-default rounded-[24px] md:rounded-[32px] p-6 md:p-8 space-y-4">
                 <div className="flex justify-between items-center">
                   <div className="text-[10px] text-text-muted font-black uppercase tracking-widest">环境支柱 (E)</div>
                   <span className="text-emerald-500 font-black italic">88%</span>
@@ -397,7 +397,7 @@ const ESGReportView: React.FC<ESGReportViewProps> = ({ isOpen, onClose }) => {
                 </div>
                 <p className="text-[10px] text-text-muted font-medium leading-relaxed italic">碳排放强度显著降低，通过 AI 路径优化成功减少了 15.4% 的无效能耗。</p>
               </div>
-              <div className="bg-bg-elevated/40 border border-border-default rounded-[32px] p-8 space-y-4">
+              <div className="bg-bg-elevated/40 border border-border-default rounded-[24px] md:rounded-[32px] p-6 md:p-8 space-y-4">
                 <div className="flex justify-between items-center">
                   <div className="text-[10px] text-text-muted font-black uppercase tracking-widest">治理支柱 (G)</div>
                   <span className="text-cyan-400 font-black italic">92%</span>
@@ -411,8 +411,8 @@ const ESGReportView: React.FC<ESGReportViewProps> = ({ isOpen, onClose }) => {
           </div>
 
           {/* 2. 趋势与可视化 */}
-          <div className="grid grid-cols-2 gap-8">
-            <div className="bg-bg-elevated/40 border border-border-default rounded-[32px] p-8 space-y-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8">
+            <div className="bg-bg-elevated/40 border border-border-default rounded-[24px] md:rounded-[32px] p-6 md:p-8 space-y-6 md:space-y-8">
                <h3 className="text-xs font-black text-text-primary uppercase tracking-widest">二氧化碳排放季度趋势 (KG)</h3>
                <div className="h-48">
                  <ResponsiveContainer width="100%" height="100%">
@@ -430,7 +430,7 @@ const ESGReportView: React.FC<ESGReportViewProps> = ({ isOpen, onClose }) => {
                </div>
             </div>
             
-            <div className="bg-bg-elevated/40 border border-border-default rounded-[32px] p-8 space-y-8">
+            <div className="bg-bg-elevated/40 border border-border-default rounded-[24px] md:rounded-[32px] p-6 md:p-8 space-y-6 md:space-y-8">
                <h3 className="text-xs font-black text-text-primary uppercase tracking-widest">2030 净零排放预测路径</h3>
                <div className="h-48">
                  <ResponsiveContainer width="100%" height="100%">
@@ -448,9 +448,9 @@ const ESGReportView: React.FC<ESGReportViewProps> = ({ isOpen, onClose }) => {
           </div>
 
           {/* 3. AI 深度建议 */}
-          <div className="bg-emerald-500/5 border border-emerald-500/20 rounded-[32px] p-10 flex gap-8 items-start">
-            <div className="p-4 bg-emerald-500/10 rounded-2xl text-emerald-400 shrink-0 shadow-lg">
-              <Sparkles size={32} />
+          <div className="bg-emerald-500/5 border border-emerald-500/20 rounded-[24px] md:rounded-[32px] p-6 md:p-10 flex flex-col sm:flex-row gap-4 md:gap-8 items-start">
+            <div className="p-3 md:p-4 bg-emerald-500/10 rounded-2xl text-emerald-400 shrink-0 shadow-lg">
+              <Sparkles size={28} />
             </div>
             <div className="space-y-4">
                <h4 className="text-lg font-black text-text-primary italic tracking-tight">AI 可持续发展洞察</h4>
@@ -462,16 +462,16 @@ const ESGReportView: React.FC<ESGReportViewProps> = ({ isOpen, onClose }) => {
         </div>
 
         {/* 底部按钮栏 */}
-        <div className="px-10 py-8 bg-bg-primary/60 border-t border-border-default flex justify-end gap-4 backdrop-blur-md">
-           <button 
+        <div className="px-4 md:px-10 py-4 md:py-8 bg-bg-primary/60 border-t border-border-default flex flex-col sm:flex-row justify-end gap-3 md:gap-4 backdrop-blur-md">
+           <button
              onClick={onClose}
-             className="px-10 py-4 bg-bg-elevated border border-border-default text-text-muted text-xs font-black rounded-2xl hover:bg-bg-tertiary transition-all duration-300 uppercase tracking-widest"
+             className="px-8 md:px-10 py-3 md:py-4 bg-bg-elevated border border-border-default text-text-muted text-xs font-black rounded-2xl hover:bg-bg-tertiary transition-all duration-300 uppercase tracking-widest"
            >
              暂不导出
            </button>
-           <button 
+           <button
              onClick={handleDownloadPDF}
-             className="px-12 py-4 bg-emerald-600 text-white text-xs font-black rounded-2xl shadow-xl shadow-emerald-600/30 hover:scale-[1.02] transition-all duration-300 active:scale-95 flex items-center gap-3 uppercase tracking-widest"
+             className="px-8 md:px-12 py-3 md:py-4 bg-emerald-600 text-white text-xs font-black rounded-2xl shadow-xl shadow-emerald-600/30 hover:scale-[1.02] transition-all duration-300 active:scale-95 flex items-center justify-center gap-3 uppercase tracking-widest"
            >
              <Download size={18} /> 下载完整报告 (PDF)
            </button>

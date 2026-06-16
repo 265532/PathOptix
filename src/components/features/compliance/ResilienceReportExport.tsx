@@ -53,7 +53,7 @@ const ResilienceReportExport: React.FC = () => {
   };
 
   return (
-    <div className="bg-bg-secondary border border-border-default rounded-3xl p-8 flex flex-col gap-6 h-full">
+    <div className="bg-bg-secondary border border-border-default rounded-3xl p-4 md:p-8 flex flex-col gap-4 md:gap-6 h-full">
       <div className="flex items-center gap-3">
         <div className="w-8 h-8 bg-teal-500/10 rounded-full flex items-center justify-center border border-teal-500/20">
           <FileDown size={16} className="text-teal-400" />
@@ -61,7 +61,7 @@ const ResilienceReportExport: React.FC = () => {
         <h3 className="text-sm font-black text-text-primary uppercase tracking-widest">报告生成与导出</h3>
       </div>
 
-      <div className="flex gap-4">
+      <div className="flex flex-col sm:flex-row gap-3 md:gap-4">
         <div className="flex-[2.5] bg-bg-primary border border-border-default rounded-xl px-4 py-3 flex items-center justify-between text-xs text-text-muted">
           <div className="flex items-center gap-3">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">

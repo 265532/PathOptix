@@ -3,7 +3,7 @@ import React from 'react';
 
 const SystemPulse: React.FC = () => {
   return (
-    <div className="min-h-[250px] w-full bg-bg-primary rounded-2xl border border-border-default/50 relative overflow-hidden group">
+    <div className="min-h-[150px] md:min-h-[250px] w-full bg-bg-primary rounded-2xl border border-border-default/50 relative overflow-hidden group">
       {/* 装饰性网格 */}
       <div className="absolute inset-0 grid grid-cols-12 opacity-10">
         {Array.from({ length: 12 }).map((_, i) => (

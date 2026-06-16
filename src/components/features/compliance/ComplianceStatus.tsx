@@ -11,7 +11,7 @@ const ComplianceStatus: React.FC = () => {
   ];
 
   return (
-    <div className="bg-bg-secondary rounded-3xl p-6 border border-border-default flex flex-col gap-6 h-full shadow-xl">
+    <div className="bg-bg-secondary rounded-3xl p-4 md:p-6 border border-border-default flex flex-col gap-4 md:gap-6 h-full shadow-xl">
       <div className="flex items-center gap-3">
         <ClipboardCheck size={20} className="text-indigo-400" />
         <h3 className="text-sm font-black text-text-primary uppercase tracking-widest">全球合规评分指数</h3>

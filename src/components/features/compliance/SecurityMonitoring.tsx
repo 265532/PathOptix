@@ -4,8 +4,8 @@ import { Search, ShieldAlert, Globe } from 'lucide-react';
 
 const SecurityMonitoring: React.FC = () => {
   return (
-    <div className="h-full bg-bg-secondary border border-border-default rounded-3xl p-8 relative overflow-hidden flex flex-col">
-      <div className="flex justify-between items-center mb-10 relative z-10">
+    <div className="h-full bg-bg-secondary border border-border-default rounded-3xl p-4 md:p-8 relative overflow-hidden flex flex-col">
+      <div className="flex justify-between items-center mb-6 md:mb-10 relative z-10">
         <div className="flex items-center gap-3">
           <div className="w-8 h-8 bg-indigo-500/10 rounded-full flex items-center justify-center border border-indigo-500/20">
             <Search size={16} className="text-indigo-400" />
@@ -17,15 +17,15 @@ const SecurityMonitoring: React.FC = () => {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 xl:grid-cols-2 gap-12 flex-1 items-center relative z-10">
+      <div className="grid grid-cols-1 xl:grid-cols-2 gap-6 md:gap-12 flex-1 items-center relative z-10">
         {/* 左侧：活跃威胁雷达 */}
         <div className="flex justify-center items-center">
-          <div className="relative w-48 h-48 rounded-full border border-border-default flex items-center justify-center">
+          <div className="relative w-36 h-36 md:w-48 md:h-48 rounded-full border border-border-default flex items-center justify-center">
             {/* 雷达扫描效果 */}
             <div className="absolute inset-0 rounded-full border border-indigo-500/10 animate-ping opacity-20" />
             <div className="absolute inset-4 rounded-full border border-indigo-500/30 animate-pulse" />
             
-            <div className="w-36 h-36 rounded-full bg-bg-secondary/50 border-2 border-border-default flex flex-col items-center justify-center shadow-[inset_0_0_30px_rgba(79,70,229,0.1)]">
+            <div className="w-28 h-28 md:w-36 md:h-36 rounded-full bg-bg-secondary/50 border-2 border-border-default flex flex-col items-center justify-center shadow-[inset_0_0_30px_rgba(79,70,229,0.1)]">
                <ShieldAlert size={24} className="text-indigo-400 mb-1" />
                <span className="text-4xl font-black text-text-primary">0</span>
                <span className="text-[10px] text-text-muted font-bold uppercase mt-1 tracking-tighter">当前活跃威胁</span>
@@ -42,7 +42,7 @@ const SecurityMonitoring: React.FC = () => {
         </div>
       </div>
 
-      <div className="mt-8 pt-6 border-t border-border-default flex items-center justify-between relative z-10">
+      <div className="mt-6 md:mt-8 pt-4 md:pt-6 border-t border-border-default flex items-center justify-between relative z-10">
         <div className="flex items-center gap-3 text-text-muted group cursor-pointer">
           <Globe size={16} className="group-hover:text-indigo-400 transition-colors duration-300" />
           <span className="text-[10px] font-bold uppercase tracking-widest group-hover:text-text-secondary transition-colors duration-300">全球 IP 过滤黑名单</span>

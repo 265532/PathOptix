@@ -7,9 +7,26 @@ interface SidebarProps {
   activeView: string;
   onViewChange: (view: string) => void;
   isCollapsed?: boolean;
+  isMobileOverlay?: boolean;
+  isMobileVisible?: boolean;
+  onMobileClose?: () => void;
 }
 
-const Sidebar: React.FC<SidebarProps> = ({ activeView, onViewChange, isCollapsed = false }) => {
+const Sidebar: React.FC<SidebarProps> = ({
+  activeView,
+  onViewChange,
+  isCollapsed = false,
+  isMobileOverlay = false,
+  isMobileVisible = false,
+  onMobileClose,
+}) => {
+  const handleViewChange = (view: string) => {
+    onViewChange(view);
+    if (isMobileOverlay && onMobileClose) {
+      onMobileClose();
+    }
+  };
+
   const menuItems = [
     { id: 'dashboard', icon: <LayoutDashboard size={20} />, label: '仪表盘' },
     { id: 'route', icon: <Route size={20} />, label: '路径优化' },
@@ -22,7 +39,9 @@ const Sidebar: React.FC<SidebarProps> = ({ activeView, onViewChange, isCollapsed
 
   return (
     <div className={`bg-bg-primary border-r border-border-default flex flex-col h-full shrink-0 transition-all duration-300 ease-in-out shadow-sm z-30 ${
-      isCollapsed ? 'w-16 overflow-visible' : 'w-80 overflow-hidden'
+      isMobileOverlay
+        ? `fixed top-0 left-0 h-full w-80 z-50 ${isMobileVisible ? 'translate-x-0' : '-translate-x-full'}`
+        : isCollapsed ? 'w-16 overflow-visible' : 'w-80 overflow-hidden'
     }`}>
       <div className={`flex items-center ${isCollapsed ? 'justify-center p-4' : 'p-8 gap-4'}`}>
         <div className={`bg-cyan-500 rounded-lg flex items-center justify-center shadow-[0_0_15px_rgba(6,182,212,0.4)] ${
@@ -39,7 +58,7 @@ const Sidebar: React.FC<SidebarProps> = ({ activeView, onViewChange, isCollapsed
         {menuItems.map((item) => (
           <button
             key={item.id}
-            onClick={() => onViewChange(item.id)}
+            onClick={() => handleViewChange(item.id)}
             className={`relative w-full flex items-center ${isCollapsed ? 'justify-center px-3 py-3' : 'gap-4 px-5 py-4'} rounded-xl transition-all duration-300 group ${
               activeView === item.id
                 ? 'bg-bg-secondary border border-brand-primary/10 text-brand-primary shadow-[inset_0_0_20px_rgba(34,211,238,0.05)]'
@@ -77,7 +96,7 @@ const Sidebar: React.FC<SidebarProps> = ({ activeView, onViewChange, isCollapsed
         )}
         
         <button 
-          onClick={() => onViewChange('settings')}
+          onClick={() => handleViewChange('settings')}
           className={`relative w-full flex items-center ${isCollapsed ? 'justify-center px-3 py-3' : 'gap-4 px-5 py-4'} rounded-xl transition-all duration-300 mb-1 group ${
             activeView === 'settings' 
               ? 'bg-bg-secondary border border-brand-primary/10 text-brand-primary shadow-[inset_0_0_20px_rgba(34,211,238,0.05)]' 

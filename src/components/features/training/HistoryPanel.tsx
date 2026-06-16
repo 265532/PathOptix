@@ -4,7 +4,7 @@ import { History } from 'lucide-react';
 
 const HistoryPanel: React.FC = () => {
   return (
-    <div className="bg-bg-secondary rounded-2xl p-6 border border-border-default flex flex-col gap-6 h-1/3">
+    <div className="bg-bg-secondary rounded-2xl p-4 md:p-6 border border-border-default flex flex-col gap-4 md:gap-6 min-h-[200px] lg:h-1/3">
       <div className="flex justify-between items-center">
         <div className="flex items-center gap-2 text-text-secondary">
           <History size={16} className="text-blue-400" />

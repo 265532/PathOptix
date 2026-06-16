@@ -57,8 +57,8 @@ const RiskDashboardCenter: React.FC = () => {
   }
 
   return (
-    <div className="p-6 space-y-6 animate-in fade-in duration-700 bg-bg-primary">
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+    <div className="p-4 md:p-6 space-y-4 md:space-y-6 animate-in fade-in duration-700 bg-bg-primary">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 md:gap-6">
         <div className="lg:col-span-3">
           <EmergencyAlertPanel news={data.news} />
         </div>

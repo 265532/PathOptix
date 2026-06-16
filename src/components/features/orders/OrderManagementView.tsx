@@ -74,7 +74,7 @@ const OrderManagementView: React.FC = () => {
 
   if (viewMode === 'detail') {
     return (
-      <div className="p-8 space-y-6 animate-in slide-in-from-right-4 duration-500">
+      <div className="p-4 md:p-6 lg:p-8 space-y-4 md:space-y-6 animate-in slide-in-from-right-4 duration-500">
         <div className="flex items-center gap-4">
           <button 
             onClick={() => setViewMode('overview')}
@@ -97,40 +97,40 @@ const OrderManagementView: React.FC = () => {
   }
 
   return (
-    <div className="p-8 space-y-8 animate-in fade-in slide-in-from-right-4 duration-700 max-w-[1800px] mx-auto w-full">
+    <div className="p-4 md:p-6 lg:p-8 space-y-4 md:space-y-6 lg:space-y-8 animate-in fade-in slide-in-from-right-4 duration-700 max-w-[1800px] mx-auto w-full">
       {/* 头部标题区 */}
-      <div className="flex justify-between items-center">
+      <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4">
         <div>
           <div className="flex items-center gap-3">
             <div className="p-2.5 bg-blue-500/10 border border-blue-500/20 rounded-2xl text-blue-400">
               <Package size={28} />
             </div>
             <div>
-              <h2 className="text-3xl font-black text-text-primary tracking-tight">智能订单调度中心</h2>
+              <h2 className="text-2xl md:text-3xl font-black text-text-primary tracking-tight">智能订单调度中心</h2>
               <p className="text-text-muted text-[10px] font-black uppercase tracking-[0.2em] mt-1">
                 E-Commerce Fulfillment & Global Order Sync
               </p>
             </div>
           </div>
         </div>
-        
-        <div className="flex gap-4">
-           <form onSubmit={handleSearch} className="relative">
-             <input 
-               type="text" 
-               placeholder="搜索订单、运单号..." 
+
+        <div className="flex flex-wrap gap-3 md:gap-4 items-center">
+           <form onSubmit={handleSearch} className="relative w-full md:w-auto">
+             <input
+               type="text"
+               placeholder="搜索订单、运单号..."
                value={searchKeyword}
                onChange={(e) => setSearchKeyword(e.target.value)}
-               className="bg-bg-secondary border border-border-default rounded-xl pl-10 pr-4 py-3 text-xs text-text-secondary focus:outline-none focus:border-blue-500 transition-all duration-300 w-64"
+               className="bg-bg-secondary border border-border-default rounded-xl pl-10 pr-4 py-3 text-xs text-text-secondary focus:outline-none focus:border-blue-500 transition-all duration-300 w-full md:w-64"
              />
-             <Search 
-               size={14} 
+             <Search
+               size={14}
                className="absolute left-4 top-1/2 -translate-y-1/2 text-text-muted cursor-pointer hover:text-blue-400 transition-colors duration-300"
                onClick={handleSearch}
              />
              {searchKeyword && (
-               <button 
-                 type="button" 
+               <button
+                 type="button"
                  onClick={handleClearSearch}
                  className="absolute right-4 top-1/2 -translate-y-1/2 text-text-muted hover:text-red-400 transition-colors duration-300"
                >
@@ -140,7 +140,7 @@ const OrderManagementView: React.FC = () => {
            </form>
            <div className="flex gap-2">
              <div className="relative">
-               <button 
+               <button
                  onClick={handleOpenFilterModal}
                  className="px-5 py-3 bg-bg-secondary border border-border-default text-text-muted rounded-xl text-xs font-bold flex items-center gap-2 hover:text-text-secondary transition-all duration-300"
                >
@@ -153,7 +153,7 @@ const OrderManagementView: React.FC = () => {
                </button>
              </div>
              {isFiltering && (
-               <button 
+               <button
                  onClick={handleClearFilter}
                  className="px-5 py-3 bg-bg-secondary border border-border-default text-text-muted rounded-xl text-xs font-bold hover:text-red-400 transition-all duration-300"
                >
@@ -161,7 +161,7 @@ const OrderManagementView: React.FC = () => {
                </button>
              )}
            </div>
-           <button 
+           <button
              onClick={() => setIsCreateModalOpen(true)}
              className="px-6 py-3 bg-blue-600 text-white rounded-xl text-xs font-black shadow-lg shadow-blue-600/20 hover:scale-105 transition-all duration-300 uppercase tracking-widest"
            >
@@ -178,7 +178,7 @@ const OrderManagementView: React.FC = () => {
         activeStatus={isFiltering ? filterStatus : null}
       />
 
-      <div className="grid grid-cols-12 gap-8">
+      <div className="grid grid-cols-12 gap-4 md:gap-6 lg:gap-8">
         <div className="col-span-12 xl:col-span-8">
           <OrderMainTable 
             key={orderRefreshKey} 
@@ -189,7 +189,7 @@ const OrderManagementView: React.FC = () => {
             isFiltering={isFiltering}
           />
         </div>
-        <div className="col-span-12 xl:col-span-4 space-y-8">
+        <div className="col-span-12 xl:col-span-4 space-y-4 md:space-y-6 lg:space-y-8">
           <LiveTracking />
           <InventoryAlerts />
         </div>

@@ -65,13 +65,13 @@ const StressView: React.FC<StressViewProps> = ({ rlData, startLabel = '上海', 
   };
 
   return (
-    <div className="grid grid-cols-12 gap-10 animate-in slide-in-from-right-4 duration-500">
-      <div className="col-span-12 xl:col-span-9 space-y-10">
+    <div className="grid grid-cols-1 xl:grid-cols-12 gap-4 md:gap-6 lg:gap-8 animate-in slide-in-from-right-4 duration-500">
+      <div className="xl:col-span-9 space-y-4 md:space-y-6 lg:space-y-10">
         {/* Header */}
-        <div className="flex justify-between items-start">
+        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-4">
           <div>
-            <div className="flex items-center gap-4">
-              <h2 className="text-4xl font-black text-text-primary tracking-tighter">
+            <div className="flex flex-wrap items-center gap-4">
+              <h2 className="text-2xl lg:text-4xl font-black text-text-primary tracking-tighter">
                 策略多维对比: {startLabel} <span className="text-red-500">→</span> {endLabel}
               </h2>
               <div className="px-3 py-1 bg-red-500/10 border border-red-500/20 text-red-500 text-[10px] font-black rounded flex items-center gap-1.5 uppercase tracking-widest animate-pulse">
@@ -101,22 +101,22 @@ const StressView: React.FC<StressViewProps> = ({ rlData, startLabel = '上海', 
           />
         )}
 
-        <div className="grid grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6 lg:gap-8">
           <SensitivityChart isStress />
           <PressureMap isStress />
         </div>
       </div>
 
       {/* Right sidebar */}
-      <div className="col-span-12 xl:col-span-3 space-y-10">
+      <div className="xl:col-span-3 space-y-4 md:space-y-6 lg:space-y-10">
         {/* Sidebar Weights */}
-        <div className="bg-bg-secondary/60 border border-border-default p-8 rounded-[32px] shadow-2xl">
+        <div className="bg-bg-secondary/60 border border-border-default p-6 sm:p-8 rounded-[32px] shadow-2xl">
           <div className="flex items-center gap-3 mb-10">
             <Sliders size={20} className="text-red-500" />
             <h3 className="text-sm font-black text-text-primary uppercase tracking-[0.2em]">决策偏好权重</h3>
           </div>
 
-          <div className="space-y-10">
+          <div className="space-y-4 md:space-y-6 lg:space-y-10">
             <SidebarSlider label="时间周期 (TIME)" value={isRunning ? tempWeights.time : weights.time} onChange={(v) => setWeights(prev => ({ ...prev, time: v }))} color="cyan" badge="AUTO-BOOSTED" />
             <SidebarSlider label="运输成本 (COST)" value={isRunning ? tempWeights.cost : weights.cost} onChange={(v) => setWeights(prev => ({ ...prev, cost: v }))} color="red" />
             <SidebarSlider label="履约韧性 (RESILIENCE)" value={isRunning ? tempWeights.resilience : weights.resilience} onChange={(v) => setWeights(prev => ({ ...prev, resilience: v }))} color="red" />
@@ -141,7 +141,7 @@ const StressView: React.FC<StressViewProps> = ({ rlData, startLabel = '上海', 
         </div>
 
         {/* Simulation Log */}
-        <div className="bg-bg-primary border border-border-default p-8 rounded-[32px] h-[350px] flex flex-col shadow-inner">
+        <div className="bg-bg-primary border border-border-default p-6 sm:p-8 rounded-[32px] min-h-[280px] sm:h-[350px] flex flex-col shadow-inner">
           <div className="flex justify-between items-center mb-6 border-b border-border-default pb-4">
             <div className="flex items-center gap-2 text-text-muted">
               <Terminal size={14} />

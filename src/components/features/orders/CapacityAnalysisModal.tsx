@@ -298,11 +298,11 @@ const CapacityAnalysisModal: React.FC<CapacityAnalysisModalProps> = ({ isOpen, o
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-md animate-in fade-in duration-300">
-      <div className="bg-bg-modal w-full max-w-5xl rounded-[40px] border border-border-default shadow-[0_32px_128px_-16px_rgba(0,0,0,1)] overflow-hidden flex flex-col transform animate-in zoom-in-95 duration-300 max-h-[90vh]">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-md animate-in fade-in duration-300 p-0 md:p-4">
+      <div className="bg-bg-modal w-full h-full md:w-auto md:h-auto md:max-w-5xl rounded-none md:rounded-[40px] border border-border-default shadow-[0_32px_128px_-16px_rgba(0,0,0,1)] overflow-hidden flex flex-col transform animate-in zoom-in-95 duration-300 md:max-h-[90vh]">
         
         {/* Header Section */}
-        <div className="px-10 py-8 flex justify-between items-center">
+        <div className="px-6 md:px-10 py-6 md:py-8 flex flex-wrap justify-between items-center gap-4">
           <div className="space-y-1">
             <h2 className="text-3xl font-black text-text-primary tracking-tight">KPI 分析详情</h2>
             <div className="flex items-center gap-2">
@@ -327,10 +327,10 @@ const CapacityAnalysisModal: React.FC<CapacityAnalysisModalProps> = ({ isOpen, o
           </div>
         </div>
 
-        <div className="flex-1 overflow-y-auto p-10 space-y-8 scrollbar-hide">
+        <div className="flex-1 overflow-y-auto px-6 md:px-10 py-6 md:py-10 space-y-8 scrollbar-hide">
           
           {/* Top KPI Cards */}
-          <div className="grid grid-cols-4 gap-6">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
             <KPICard label="延误率" value={kpiData.delayRate} trend={kpiData.delayTrend} isDown={kpiData.delayIsDown} />
             <KPICard label="异常率" value={kpiData.anomalyRate} trend={kpiData.anomalyTrend} isDown={kpiData.anomalyIsDown} />
             <KPICard label="单位碳排" value={kpiData.carbonEmission} unit="kg/ton" trend={kpiData.carbonTrend} isDown={kpiData.carbonIsDown} />
@@ -352,10 +352,10 @@ const CapacityAnalysisModal: React.FC<CapacityAnalysisModalProps> = ({ isOpen, o
           </div>
 
           {/* Main Content Grid */}
-          <div className="grid grid-cols-12 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
             
             {/* Left Column: Optimal Path Fusion */}
-            <div className="col-span-8 space-y-8">
+            <div className="md:col-span-8 space-y-8">
               <div className="flex items-center gap-3">
                 <div className="w-6 h-6 rounded-full bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-blue-400">
                   <Activity size={14} />
@@ -374,7 +374,7 @@ const CapacityAnalysisModal: React.FC<CapacityAnalysisModalProps> = ({ isOpen, o
                     <span className="text-2xl font-black text-text-primary italic tracking-tighter">{kpiData.distance}</span>
                   </div>
 
-                  <div className="grid grid-cols-2 gap-12">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-12">
                     <div className="flex justify-between items-center">
                       <span className="text-xs font-bold text-text-muted">预计时间:</span>
                       <span className="text-sm font-black text-text-primary">{kpiData.timeRange}</span>
@@ -417,7 +417,7 @@ const CapacityAnalysisModal: React.FC<CapacityAnalysisModalProps> = ({ isOpen, o
             </div>
 
             {/* Right Column: Real-time Risk Logs */}
-            <div className="col-span-4 space-y-8">
+            <div className="md:col-span-4 space-y-8">
               <div className="flex items-center gap-3">
                 <div className="p-1.5 bg-orange-500/10 rounded-lg text-orange-500">
                   <AlertCircle size={14} fill="currentColor" fillOpacity={0.2} />

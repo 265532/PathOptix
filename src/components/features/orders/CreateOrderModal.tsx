@@ -85,11 +85,11 @@ const CreateOrderModal: React.FC<CreateOrderModalProps> = ({ isOpen, onClose, on
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-md animate-in fade-in duration-300">
-      <div className="bg-bg-modal w-full max-w-xl rounded-[40px] border border-border-default shadow-[0_32px_128px_-16px_rgba(0,0,0,1)] overflow-hidden flex flex-col transform animate-in zoom-in-95 duration-300">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-md animate-in fade-in duration-300 p-0 md:p-4">
+      <div className="bg-bg-modal w-full h-full md:w-auto md:h-auto md:max-w-xl rounded-none md:rounded-[40px] border border-border-default shadow-[0_32px_128px_-16px_rgba(0,0,0,1)] overflow-hidden flex flex-col transform animate-in zoom-in-95 duration-300">
         
         {/* Header */}
-        <div className="px-10 py-8 border-b border-border-default flex justify-between items-center">
+        <div className="px-6 md:px-10 py-6 md:py-8 border-b border-border-default flex justify-between items-center">
           <div className="flex items-center gap-4">
             <div className="p-2.5 bg-blue-600/20 rounded-xl text-blue-400 border border-blue-500/20 shadow-[0_0_15px_rgba(37,99,235,0.1)]">
               <PackagePlus size={24} />
@@ -108,8 +108,8 @@ const CreateOrderModal: React.FC<CreateOrderModalProps> = ({ isOpen, onClose, on
         </div>
 
         {/* Form Body */}
-        <form onSubmit={handleSubmit} className="p-10 space-y-6">
-          <div className="grid grid-cols-2 gap-6">
+        <form onSubmit={handleSubmit} className="flex-1 overflow-y-auto px-6 md:px-10 py-6 md:py-10 space-y-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="space-y-2">
               <label className="text-[10px] text-text-muted font-black uppercase tracking-widest pl-1">订单 ID</label>
               <div className="relative group">
@@ -157,7 +157,7 @@ const CreateOrderModal: React.FC<CreateOrderModalProps> = ({ isOpen, onClose, on
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="space-y-2">
               <label className="text-[10px] text-text-muted font-black uppercase tracking-widest pl-1">订单金额</label>
               <div className="relative group">
@@ -233,7 +233,7 @@ const CreateOrderModal: React.FC<CreateOrderModalProps> = ({ isOpen, onClose, on
         </form>
 
         {/* Footer Actions */}
-        <div className="px-10 py-8 bg-bg-primary/40 border-t border-border-default flex justify-end gap-4">
+        <div className="px-6 md:px-10 py-6 md:py-8 bg-bg-primary/40 border-t border-border-default flex justify-end gap-4">
           <button 
             type="button"
             onClick={onClose}

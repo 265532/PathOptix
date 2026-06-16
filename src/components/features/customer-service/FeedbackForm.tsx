@@ -165,8 +165,8 @@ const FeedbackForm: React.FC<FeedbackFormProps> = ({ onAddFeedback, onUpdateFeed
   };
 
   return (
-    <div className="bg-bg-tertiary rounded-[32px] border border-border-default p-8 shadow-2xl relative">
-      <div className="flex items-center gap-3 mb-8">
+    <div className="bg-bg-tertiary rounded-2xl md:rounded-[32px] border border-border-default p-4 md:p-8 shadow-2xl relative">
+      <div className="flex items-center gap-3 mb-4 md:mb-8">
         <div className="w-10 h-10 bg-amber-500/10 rounded-xl flex items-center justify-center text-amber-500">
           <MessageSquare size={20} />
         </div>
@@ -180,7 +180,7 @@ const FeedbackForm: React.FC<FeedbackFormProps> = ({ onAddFeedback, onUpdateFeed
         </div>
       )}
 
-      <div className="grid grid-cols-2 gap-6 mb-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 mb-6">
         <div className="space-y-2">
           <label className="text-[10px] text-text-muted font-black uppercase tracking-widest">反馈类型</label>
           <div className="bg-bg-secondary border border-border-default rounded-xl px-4 py-3 flex items-center justify-between text-xs text-text-secondary cursor-pointer">

@@ -187,7 +187,7 @@ const SidebarWeights: React.FC = () => {
   };
 
   return (
-    <div className="bg-bg-secondary/60 border border-border-default p-8 rounded-[32px] shadow-2xl">
+    <div className="bg-bg-secondary/60 border border-border-default p-6 sm:p-8 rounded-[32px] shadow-2xl">
       <div className="flex items-center gap-3 mb-10">
         <Sliders size={20} className="text-red-500" />
         <h3 className="text-sm font-black text-text-primary uppercase tracking-[0.2em]">决策偏好权重</h3>

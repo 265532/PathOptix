@@ -62,7 +62,7 @@ const RobustDetail: React.FC<RobustDetailProps> = ({ rlData, llmReport, startLab
     <div className="space-y-6 pb-6">
       <div className="flex items-end px-2">
         <div>
-          <h2 className="text-2xl font-black text-text-primary tracking-tight italic">
+          <h2 className="text-xl lg:text-2xl font-black text-text-primary tracking-tight italic">
             {startLabel} ➔ {endLabel} <span className="text-text-muted text-lg">鲁棒性备选路径分析</span>
           </h2>
           <p className="text-[10px] text-text-muted font-bold uppercase tracking-widest mt-1 leading-relaxed">
@@ -139,7 +139,7 @@ const RobustDetail: React.FC<RobustDetailProps> = ({ rlData, llmReport, startLab
           )}
 
           {/* Metrics Grid */}
-          <div className="grid grid-cols-3 gap-10">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-10">
             <MetricBlock
               label="预期交期"
               value={rlData ? `${timeLow} - ${timeHigh} 天` : '18 - 21 天'}
@@ -180,7 +180,7 @@ const RobustDetail: React.FC<RobustDetailProps> = ({ rlData, llmReport, startLab
         </div>
 
         {/* Right Side: Score Gauge */}
-        <div className="w-full xl:w-[360px] bg-bg-primary/40 rounded-[28px] p-8 border border-border-default/50 flex flex-col items-center justify-center gap-6 relative group">
+        <div className="w-full xl:w-[360px] shrink-0 bg-bg-primary/40 rounded-[28px] p-6 sm:p-8 border border-border-default/50 flex flex-col items-center justify-center gap-6 relative group">
           {/* Status Badges */}
           <div className="flex gap-2 w-full justify-center">
             <span className="px-2.5 py-1 bg-emerald-500/10 border border-emerald-500/20 text-emerald-500 text-[8px] font-black rounded-lg flex items-center gap-1.5 uppercase tracking-widest">

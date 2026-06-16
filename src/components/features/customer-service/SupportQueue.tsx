@@ -12,8 +12,8 @@ const SupportQueue: React.FC = () => {
   ];
 
   return (
-    <div className="bg-bg-secondary border border-border-default rounded-3xl p-8 shadow-2xl h-full flex flex-col">
-      <div className="flex items-center justify-between mb-8">
+    <div className="bg-bg-secondary border border-border-default rounded-2xl md:rounded-3xl p-4 md:p-8 shadow-2xl h-full flex flex-col">
+      <div className="flex items-center justify-between mb-4 md:mb-8">
         <div className="flex items-center gap-3">
           <MessageSquare size={18} className="text-cyan-400" />
           <h3 className="text-sm font-black text-text-primary uppercase tracking-widest">待办服务工单</h3>
@@ -28,21 +28,21 @@ const SupportQueue: React.FC = () => {
           <thead>
             <tr className="border-b border-border-default">
               <th className="pb-4 text-left text-[10px] font-black text-text-muted uppercase tracking-widest">工单 ID</th>
-              <th className="pb-4 text-left text-[10px] font-black text-text-muted uppercase tracking-widest">用户</th>
+              <th className="pb-4 text-left text-[10px] font-black text-text-muted uppercase tracking-widest hidden md:table-cell">用户</th>
               <th className="pb-4 text-left text-[10px] font-black text-text-muted uppercase tracking-widest">问题描述</th>
-              <th className="pb-4 text-left text-[10px] font-black text-text-muted uppercase tracking-widest">提交时间</th>
+              <th className="pb-4 text-left text-[10px] font-black text-text-muted uppercase tracking-widest hidden lg:table-cell">提交时间</th>
               <th className="pb-4 text-left text-[10px] font-black text-text-muted uppercase tracking-widest">优先级</th>
-              <th className="pb-4"></th>
+              <th className="pb-4 hidden md:table-cell"></th>
             </tr>
           </thead>
           <tbody className="divide-y divide-border-default/20">
             {tickets.map((tkt, idx) => (
               <tr key={idx} className="group hover:bg-bg-tertiary/10 cursor-pointer transition-colors duration-300">
-                <td className="py-6 font-mono text-xs text-cyan-400 font-black">{tkt.id}</td>
-                <td className="py-6 text-sm font-bold text-text-secondary">{tkt.user}</td>
-                <td className="py-6 text-xs text-text-muted font-medium max-w-xs truncate">{tkt.issue}</td>
-                <td className="py-6 text-xs text-text-muted font-medium">{tkt.time}</td>
-                <td className="py-6">
+                <td className="py-4 md:py-6 font-mono text-xs text-cyan-400 font-black">{tkt.id}</td>
+                <td className="py-4 md:py-6 text-sm font-bold text-text-secondary hidden md:table-cell">{tkt.user}</td>
+                <td className="py-4 md:py-6 text-xs text-text-muted font-medium max-w-[120px] md:max-w-xs truncate">{tkt.issue}</td>
+                <td className="py-4 md:py-6 text-xs text-text-muted font-medium hidden lg:table-cell">{tkt.time}</td>
+                <td className="py-4 md:py-6">
                   <span className={`px-2 py-0.5 rounded text-[9px] font-black uppercase border ${
                     tkt.priority === 'CRITICAL' ? 'bg-red-500/10 text-red-500 border-red-500/20' :
                     tkt.priority === 'HIGH' ? 'bg-amber-500/10 text-amber-500 border-amber-500/20' :
@@ -51,7 +51,7 @@ const SupportQueue: React.FC = () => {
                     {tkt.priority}
                   </span>
                 </td>
-                <td className="py-6 text-right">
+                <td className="py-4 md:py-6 text-right hidden md:table-cell">
                   <button className="p-2 text-text-muted hover:text-text-primary transition-colors duration-300">
                     <MoreHorizontal size={18} />
                   </button>

@@ -211,13 +211,13 @@ const ReportExport: React.FC = () => {
   };
 
   return (
-    <div className="bg-bg-secondary border border-border-default rounded-3xl p-8 flex flex-col gap-6 h-full">
+    <div className="bg-bg-secondary border border-border-default rounded-3xl p-4 md:p-8 flex flex-col gap-4 md:gap-6 h-full">
       <div className="flex items-center gap-3">
         <div className="text-indigo-400"><FileDown size={20} /></div>
         <h3 className="text-sm font-black text-text-primary uppercase tracking-widest">报告生成与导出</h3>
       </div>
 
-      <div className="flex gap-4">
+      <div className="flex flex-col sm:flex-row gap-3 md:gap-4">
         <div className="flex-[2.5] bg-bg-primary border border-border-default rounded-xl px-4 py-3 flex items-center justify-between text-xs text-text-muted group cursor-pointer hover:border-border-input transition-all duration-300">
           <div className="flex items-center gap-3">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>

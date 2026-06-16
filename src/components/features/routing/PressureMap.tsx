@@ -7,7 +7,7 @@ interface Props {
 
 const PressureMap: React.FC<Props> = ({ isStress }) => {
   return (
-    <div className="bg-bg-secondary/60 border border-border-default rounded-[32px] p-8 h-[400px] flex flex-col relative overflow-hidden group">
+    <div className="bg-bg-secondary/60 border border-border-default rounded-[32px] p-4 sm:p-8 min-h-[280px] sm:h-[400px] flex flex-col relative overflow-hidden group">
       <div className="mb-6 relative z-10">
         <h3 className="text-sm font-black text-text-primary uppercase tracking-widest">全球港口拥堵热力 (实时模拟)</h3>
       </div>

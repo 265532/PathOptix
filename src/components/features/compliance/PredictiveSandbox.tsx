@@ -120,13 +120,13 @@ const PredictiveSandbox: React.FC = () => {
   return (
     <div className="animate-in fade-in duration-700">
       {/* Header */}
-      <div className="flex items-center justify-between mb-8">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mb-6 md:mb-8">
         <div className="flex items-center gap-4">
           <div className="w-10 h-10 bg-gradient-to-br from-red-500/20 to-orange-500/20 rounded-2xl flex items-center justify-center border border-red-500/20">
             <Sparkles size={18} className="text-orange-400" />
           </div>
           <div>
-            <h2 className="text-lg font-black text-text-primary uppercase tracking-widest">未来态沙盘推演与主动防御引擎</h2>
+            <h2 className="text-base md:text-lg font-black text-text-primary uppercase tracking-widest">未来态沙盘推演与主动防御引擎</h2>
             <p className="text-[10px] text-text-muted font-bold mt-0.5">PPO 强化学习驱动 · 全球供应链风险前瞻</p>
           </div>
         </div>
@@ -153,7 +153,7 @@ const PredictiveSandbox: React.FC = () => {
           </div>
 
           {/* Scrubber buttons */}
-          <div className="flex justify-between">
+          <div className="grid grid-cols-4 gap-2 md:gap-0 md:flex md:justify-between">
             {TIME_OPTIONS.map((opt) => {
               const isActive = timeOffset === opt.offset;
               const isPast = timeOffset >= opt.offset;
@@ -223,7 +223,7 @@ const PredictiveSandbox: React.FC = () => {
       {data && !isLoading && !error && (
         <>
           {/* Narrative banner */}
-          <div className="bg-gradient-to-r from-orange-500/5 to-red-500/5 border border-orange-500/20 rounded-2xl p-5 mb-6">
+          <div className="bg-gradient-to-r from-orange-500/5 to-red-500/5 border border-orange-500/20 rounded-2xl p-4 md:p-5 mb-6">
             <div className="flex items-start gap-3">
               <div className="w-1.5 h-1.5 rounded-full bg-orange-500 animate-pulse mt-1.5 flex-shrink-0" />
               <p className="text-[12px] text-text-secondary font-bold leading-relaxed">

@@ -141,7 +141,7 @@ const OrderMainTable: React.FC<OrderMainTableProps> = ({
         </div>
       ) : (
         <div className="overflow-x-auto flex-1">
-          <table className="w-full">
+          <table className="w-full min-w-[800px]">
             <thead>
               <tr className="border-b border-border-default">
                 <th className="pb-4 text-left text-[10px] font-black text-text-muted uppercase tracking-widest">订单 ID</th>

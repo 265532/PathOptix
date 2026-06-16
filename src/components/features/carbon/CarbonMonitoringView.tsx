@@ -81,33 +81,33 @@ const CarbonMonitoringView: React.FC<CarbonMonitoringViewProps> = ({ onViewChang
   };
 
   return (
-    <div className="p-8 space-y-8 animate-in fade-in slide-in-from-right-4 duration-700 max-w-[1800px] mx-auto w-full">
+    <div className="p-4 md:p-6 lg:p-8 space-y-4 md:space-y-6 lg:space-y-8 animate-in fade-in slide-in-from-right-4 duration-700 max-w-[1800px] mx-auto w-full">
       {/* 顶部标题与快速动作 */}
-      <div className="flex justify-between items-end">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4">
         <div>
           <div className="flex items-center gap-3">
             <div className="p-2 bg-emerald-500/20 rounded-lg text-emerald-400">
               <Leaf size={28} fill="currentColor" />
             </div>
             <div>
-              <h2 className="text-3xl font-black text-text-primary tracking-tight">碳排放监控中心</h2>
-              <p className="text-text-muted text-xs font-bold uppercase tracking-[0.2em] mt-1">
+              <h2 className="text-2xl md:text-3xl font-black text-text-primary tracking-tight">碳排放监控中心</h2>
+              <p className="text-text-muted text-[9px] md:text-xs font-bold uppercase tracking-[0.15em] md:tracking-[0.2em] mt-1">
                 GLOBAL SUPPLY CHAIN ESG &amp; CARBON FOOTPRINT TRACKER
               </p>
             </div>
           </div>
         </div>
-        <div className="flex gap-4">
-          <button 
+        <div className="flex flex-wrap gap-3 sm:gap-4 w-full sm:w-auto">
+          <button
             onClick={() => setIsESGReportOpen(true)}
-            className="px-6 py-3 bg-bg-tertiary border border-border-default rounded-xl text-xs font-bold text-text-muted hover:text-emerald-400 transition-all duration-300 flex items-center gap-2 group"
+            className="flex-1 sm:flex-none px-4 sm:px-6 py-3 bg-bg-tertiary border border-border-default rounded-xl text-xs font-bold text-text-muted hover:text-emerald-400 transition-all duration-300 flex items-center justify-center gap-2 group"
           >
             <Wind size={14} className="group-hover:rotate-45 transition-transform" /> 生成ESG报告
           </button>
           <button
             onClick={handleOptimizeEnergy}
             disabled={isOptimizing || hasOptimized}
-            className={`px-6 py-3 rounded-xl text-xs font-black shadow-lg flex items-center gap-2 transition-all ${
+            className={`flex-1 sm:flex-none px-4 sm:px-6 py-3 rounded-xl text-xs font-black shadow-lg flex items-center justify-center gap-2 transition-all ${
               hasOptimized
                 ? 'bg-emerald-900 text-emerald-300 border-2 border-emerald-500/50 shadow-emerald-500/30 cursor-default'
                 : isOptimizing
@@ -133,48 +133,48 @@ const CarbonMonitoringView: React.FC<CarbonMonitoringViewProps> = ({ onViewChang
       <CarbonMetrics metricsData={metricsData} hasOptimized={hasOptimized} />
 
       {/* 中间核心分析区 */}
-      <div className="grid grid-cols-12 gap-8">
+      <div className="grid grid-cols-12 gap-4 md:gap-6 lg:gap-8">
         {/* 趋势图 */}
         <div className="col-span-12 lg:col-span-8 min-h-0">
           <EmissionChart activeMode={activeMode} hasOptimized={hasOptimized} />
         </div>
 
         {/* 绿色评分与能源分布 */}
-        <div className="col-span-12 lg:col-span-4 flex flex-col gap-8 min-h-0">
+        <div className="col-span-12 lg:col-span-4 flex flex-col gap-4 md:gap-6 lg:gap-8 min-h-0">
           <SustainabilityScore hasOptimized={hasOptimized} />
           <EnergySourcePanel activeMode={activeMode} onModeChange={setActiveMode} hasOptimized={hasOptimized} />
         </div>
       </div>
 
       {/* 底部详细列表 */}
-      <div className="bg-bg-tertiary rounded-3xl p-6 border border-border-default">
-        <div className="flex items-center justify-between mb-6">
+      <div className="bg-bg-tertiary rounded-3xl p-4 md:p-6 border border-border-default">
+        <div className="flex items-center justify-between mb-4 md:mb-6">
           <div className="flex items-center gap-2">
             <Activity size={18} className="text-emerald-400" />
             <h3 className="text-sm font-black text-text-primary uppercase tracking-widest">节点能耗排行</h3>
           </div>
           <span className="text-[10px] text-text-muted font-bold uppercase">实时同步：120ms</span>
         </div>
-        
-        <div className="space-y-4">
+
+        <div className="space-y-3 md:space-y-4">
           {[
             { node: "Shanghai-IDC-01", usage: "42.8 kW", co2: "12.4kg/h", type: "电网" },
             { node: "Nanjing-Edge-04", usage: "15.2 kW", co2: "0.2kg/h", type: "风能" },
             { node: "Global-Hub-Alpha", usage: "124.5 kW", co2: "45.1kg/h", type: "混合" }
           ].map((item, idx) => (
-            <div key={idx} className="flex items-center justify-between p-4 bg-bg-modal rounded-2xl border border-border-default hover:border-emerald-500/30 transition-all duration-300 group">
-              <div className="flex items-center gap-4">
-                <div className="w-10 h-10 rounded-xl bg-bg-elevated flex items-center justify-center text-text-muted group-hover:text-emerald-400 transition-colors duration-300">
-                  <Battery size={20} />
+            <div key={idx} className="flex items-center justify-between p-3 md:p-4 bg-bg-modal rounded-2xl border border-border-default hover:border-emerald-500/30 transition-all duration-300 group">
+              <div className="flex items-center gap-3 md:gap-4">
+                <div className="w-8 h-8 md:w-10 md:h-10 rounded-xl bg-bg-elevated flex items-center justify-center text-text-muted group-hover:text-emerald-400 transition-colors duration-300">
+                  <Battery size={18} />
                 </div>
                 <div>
-                  <div className="text-sm font-bold text-text-primary">{item.node}</div>
-                  <div className="text-[10px] text-text-muted font-medium">能源模式: {item.type}</div>
+                  <div className="text-xs md:text-sm font-bold text-text-primary">{item.node}</div>
+                  <div className="text-[9px] md:text-[10px] text-text-muted font-medium">能源模式: {item.type}</div>
                 </div>
               </div>
               <div className="text-right">
-                <div className="text-sm font-black text-text-primary">{item.usage}</div>
-                <div className="text-[10px] text-emerald-500 font-bold">{item.co2} 排量</div>
+                <div className="text-xs md:text-sm font-black text-text-primary">{item.usage}</div>
+                <div className="text-[9px] md:text-[10px] text-emerald-500 font-bold">{item.co2} 排量</div>
               </div>
             </div>
           ))}

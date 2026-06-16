@@ -46,7 +46,7 @@ const ParamConfig: React.FC = () => {
   };
 
   return (
-    <div className="bg-bg-secondary rounded-2xl p-5 border border-border-default flex flex-col gap-5">
+    <div className="bg-bg-secondary rounded-2xl p-4 md:p-5 border border-border-default flex flex-col gap-4 md:gap-5 flex-1">
       <div className="flex items-center gap-2 text-text-secondary">
         <SlidersHorizontal size={16} className="text-cyan-400" />
         <span className="text-xs font-bold tracking-wider uppercase">算法参数配置</span>
@@ -63,7 +63,7 @@ const ParamConfig: React.FC = () => {
           value={formData.iterations} 
           onChange={(val) => handleInputChange('iterations', val)} 
         />
-        <div className="flex gap-3">
+        <div className="flex gap-3 flex-col sm:flex-row">
           <InputGroup 
             label="探索率" 
             value={formData.epsilon} 

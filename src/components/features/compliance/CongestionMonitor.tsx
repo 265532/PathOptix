@@ -25,8 +25,8 @@ const CongestionMonitor: React.FC<CongestionMonitorProps> = ({ metrics }) => {
   const weatherStatus = getStatus(m.weather_disruption, [40, 60]);
 
   return (
-    <div className="h-full bg-bg-secondary border border-border-default rounded-3xl p-8 relative overflow-hidden flex flex-col">
-      <div className="flex justify-between items-center mb-10 relative z-10">
+    <div className="h-full bg-bg-secondary border border-border-default rounded-3xl p-4 md:p-8 relative overflow-hidden flex flex-col">
+      <div className="flex justify-between items-center mb-6 md:mb-10 relative z-10">
         <div className="flex items-center gap-3">
           <div className="w-8 h-8 bg-orange-500/10 rounded-full flex items-center justify-center border border-orange-500/20">
             <Activity size={16} className="text-orange-400" />
@@ -36,13 +36,13 @@ const CongestionMonitor: React.FC<CongestionMonitorProps> = ({ metrics }) => {
         <span className="text-[9px] text-text-muted font-mono">更新于 {m.updated_at}</span>
       </div>
 
-      <div className="grid grid-cols-1 xl:grid-cols-2 gap-12 flex-1 items-center relative z-10">
+      <div className="grid grid-cols-1 xl:grid-cols-2 gap-6 md:gap-12 flex-1 items-center relative z-10">
         {/* 左侧：拥堵指数仪表 */}
         <div className="flex justify-center items-center">
-          <div className="relative w-48 h-48 rounded-full border border-border-default flex items-center justify-center">
+          <div className="relative w-36 h-36 md:w-48 md:h-48 rounded-full border border-border-default flex items-center justify-center">
             <div className="absolute inset-0 rounded-full border border-orange-500/10 animate-ping opacity-20" />
             <div className="absolute inset-4 rounded-full border border-orange-500/30 animate-pulse" />
-            <div className="w-36 h-36 rounded-full bg-bg-elevated/50 border-2 border-border-default flex flex-col items-center justify-center shadow-[inset_0_0_30px_rgba(249,115,22,0.1)]">
+            <div className="w-28 h-28 md:w-36 md:h-36 rounded-full bg-bg-elevated/50 border-2 border-border-default flex flex-col items-center justify-center shadow-[inset_0_0_30px_rgba(249,115,22,0.1)]">
               <span className="text-4xl font-black text-text-primary italic">{m.congestion_index.toFixed(1)}</span>
               <span className={`text-[10px] font-black uppercase mt-1 tracking-tighter ${congestionStatus.color}`}>
                 {congestionStatus.label}
@@ -86,7 +86,7 @@ const CongestionMonitor: React.FC<CongestionMonitorProps> = ({ metrics }) => {
         </div>
       </div>
 
-      <div className="mt-8 pt-6 border-t border-border-default flex items-center justify-between relative z-10">
+      <div className="mt-6 md:mt-8 pt-4 md:pt-6 border-t border-border-default flex items-center justify-between relative z-10">
         <div className="flex items-center gap-3 text-text-muted">
           <Globe size={16} />
           <span className="text-[10px] font-bold uppercase tracking-widest">全球供应链实时态势</span>

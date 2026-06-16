@@ -48,34 +48,34 @@ const Monitor: React.FC = () => {
   const chartTheme = useChartTheme();
 
   return (
-    <div className="bg-bg-secondary rounded-3xl p-8 border border-border-default shadow-2xl space-y-8">
-      <div className="flex justify-between items-center">
+    <div className="bg-bg-secondary rounded-3xl p-4 md:p-8 border border-border-default shadow-2xl space-y-4 md:space-y-8">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
         <div>
-          <h2 className="text-2xl font-black text-text-primary">训练监控</h2>
+          <h2 className="text-xl md:text-2xl font-black text-text-primary">训练监控</h2>
           <p className="text-xs text-text-muted mt-1 uppercase tracking-widest">实时奖励/损失同步</p>
         </div>
-        <div className="flex gap-3">
-          <button 
+        <div className="flex gap-2 md:gap-3 flex-wrap">
+          <button
             onClick={handleStart}
             disabled={isTraining}
-            className={`px-6 py-2.5 rounded-xl text-xs font-black flex items-center gap-2 transition-all ${
+            className={`px-4 md:px-6 py-2 md:py-2.5 rounded-xl text-xs font-black flex items-center gap-1.5 md:gap-2 transition-all ${
               isTraining ? 'bg-blue-600/50 text-white/50 cursor-not-allowed' : 'bg-blue-600 hover:bg-blue-500 text-white shadow-lg shadow-blue-600/20 active:scale-95'
             }`}
           >
             <Play size={14} fill="currentColor" /> 开始
           </button>
-          <button 
+          <button
             onClick={handlePause}
             disabled={!isTraining}
-            className={`px-6 py-2.5 rounded-xl text-xs font-bold flex items-center gap-2 transition-all ${
+            className={`px-4 md:px-6 py-2 md:py-2.5 rounded-xl text-xs font-bold flex items-center gap-1.5 md:gap-2 transition-all ${
               !isTraining ? 'bg-bg-tertiary/50 text-text-muted cursor-not-allowed' : 'bg-bg-tertiary hover:bg-bg-tertiary text-text-muted text-text-secondary active:scale-95'
             }`}
           >
             <Pause size={14} fill="currentColor" /> 暂停
           </button>
-          <button 
+          <button
             onClick={handleSaveBest}
-            className="px-6 py-2.5 bg-emerald-600/10 border border-emerald-500/30 text-emerald-400 rounded-xl text-xs font-black flex items-center gap-2 transition-all hover:bg-emerald-600/20 active:scale-95"
+            className="px-4 md:px-6 py-2 md:py-2.5 bg-emerald-600/10 border border-emerald-500/30 text-emerald-400 rounded-xl text-xs font-black flex items-center gap-1.5 md:gap-2 transition-all hover:bg-emerald-600/20 active:scale-95"
           >
             <Save size={14} /> 保存最优
           </button>
@@ -98,7 +98,7 @@ const Monitor: React.FC = () => {
         </div>
       </div>
 
-      <div className="grid grid-cols-2 gap-8 h-48">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-8 h-40 md:h-48">
         <ChartBox title="奖励曲线" data={dummyData} dataKey="reward" color="#3B82F6" chartTheme={chartTheme} />
         <ChartBox title="损失函数" data={dummyData} dataKey="loss" color="#EF4444" chartTheme={chartTheme} />
       </div>

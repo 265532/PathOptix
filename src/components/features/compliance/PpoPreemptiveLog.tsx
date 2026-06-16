@@ -31,8 +31,8 @@ const PpoPreemptiveLog: React.FC<PpoPreemptiveLogProps> = ({ actions, currentTim
   const completedCount = actions.filter(a => a.status === 'COMPLETED').length;
 
   return (
-    <div className="bg-bg-secondary border border-border-default rounded-3xl p-8 flex flex-col">
-      <div className="flex items-center gap-3 mb-6">
+    <div className="bg-bg-secondary border border-border-default rounded-3xl p-4 md:p-8 flex flex-col">
+      <div className="flex items-center gap-3 mb-4 md:mb-6">
         <div className="w-8 h-8 bg-emerald-500/10 rounded-full flex items-center justify-center border border-emerald-500/20">
           <Shield size={16} className="text-emerald-400" />
         </div>
@@ -40,18 +40,18 @@ const PpoPreemptiveLog: React.FC<PpoPreemptiveLogProps> = ({ actions, currentTim
       </div>
 
       {/* Summary row */}
-      <div className="grid grid-cols-3 gap-3 mb-6">
-        <div className="bg-bg-elevated/50 rounded-xl p-3 text-center border border-border-default/40">
-          <div className="text-lg font-black text-text-primary">{actions.length}</div>
-          <div className="text-[9px] text-text-muted font-bold uppercase">策略总数</div>
+      <div className="grid grid-cols-3 gap-2 md:gap-3 mb-4 md:mb-6">
+        <div className="bg-bg-elevated/50 rounded-xl p-2 md:p-3 text-center border border-border-default/40">
+          <div className="text-base md:text-lg font-black text-text-primary">{actions.length}</div>
+          <div className="text-[8px] md:text-[9px] text-text-muted font-bold uppercase">策略总数</div>
         </div>
-        <div className="bg-emerald-500/5 rounded-xl p-3 text-center border border-emerald-500/20">
-          <div className="text-lg font-black text-emerald-400">{completedCount}</div>
-          <div className="text-[9px] text-text-muted font-bold uppercase">已完成</div>
+        <div className="bg-emerald-500/5 rounded-xl p-2 md:p-3 text-center border border-emerald-500/20">
+          <div className="text-base md:text-lg font-black text-emerald-400">{completedCount}</div>
+          <div className="text-[8px] md:text-[9px] text-text-muted font-bold uppercase">已完成</div>
         </div>
-        <div className="bg-amber-500/5 rounded-xl p-3 text-center border border-amber-500/20">
-          <div className="text-lg font-black text-amber-400">${totalSaved.toLocaleString()}</div>
-          <div className="text-[9px] text-text-muted font-bold uppercase">节省金额</div>
+        <div className="bg-amber-500/5 rounded-xl p-2 md:p-3 text-center border border-amber-500/20">
+          <div className="text-base md:text-lg font-black text-amber-400">${totalSaved.toLocaleString()}</div>
+          <div className="text-[8px] md:text-[9px] text-text-muted font-bold uppercase">节省金额</div>
         </div>
       </div>
 
@@ -90,7 +90,7 @@ const PpoPreemptiveLog: React.FC<PpoPreemptiveLogProps> = ({ actions, currentTim
       </div>
 
       {/* Footer */}
-      <div className="mt-6 pt-4 border-t border-border-default flex items-center justify-between">
+      <div className="mt-4 md:mt-6 pt-3 md:pt-4 border-t border-border-default flex items-center justify-between">
         <span className="text-[10px] text-text-muted font-bold">PPO 引擎 · {currentTimeLabel}</span>
         <span className="text-[9px] text-emerald-400 font-black uppercase tracking-widest">PathOptix RL</span>
       </div>

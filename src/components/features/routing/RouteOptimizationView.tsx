@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { RefreshCw, MapPin, ChevronDown } from 'lucide-react';
+import { RefreshCw, MapPin, ChevronDown, Sliders, ChevronUp } from 'lucide-react';
 import NormalView from './Scenarios/NormalScenario/NormalView';
 import StressView from './Scenarios/StressScenario/StressView';
 import { optimizeApi, RlPathJson } from '@/services';
@@ -35,6 +35,7 @@ const RouteOptimizationView: React.FC = () => {
   const [rlData, setRlData] = useState<RlPathJson | null>(null);
   const [llmReport, setLlmReport] = useState('');
   const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
+  const [isWeightsOpen, setIsWeightsOpen] = useState(false);
 
   const handleWeightChange = (key: keyof typeof weights, val: number) => {
     setWeights(prev => ({ ...prev, [key]: val }));
@@ -80,9 +81,9 @@ const RouteOptimizationView: React.FC = () => {
   };
 
   return (
-    <div className="p-10 space-y-8 bg-bg-primary min-h-full font-inter animate-in fade-in duration-700">
+    <div className="p-4 md:p-6 lg:p-8 space-y-4 md:space-y-6 lg:space-y-8 bg-bg-primary min-h-full font-inter animate-in fade-in duration-700">
       {/* Top Header & Weights Panel */}
-      <div className="flex flex-col lg:flex-row gap-8 justify-between items-start">
+      <div className="flex flex-col lg:flex-row gap-4 md:gap-6 lg:gap-8 justify-between items-start">
         <div className="space-y-6">
           <div className="flex items-center gap-6">
             <h3 className="text-[10px] font-black text-text-muted uppercase tracking-[0.25em] italic">仿真运行场景 (CURRENT SIMULATION)</h3>
@@ -95,7 +96,7 @@ const RouteOptimizationView: React.FC = () => {
           </div>
 
           {/* City Selectors */}
-          <div className="flex items-end gap-4">
+          <div className="flex flex-wrap items-end gap-4">
             <CitySelector value={startNode} onChange={setStartNode} label="起点" />
             <div className="flex items-center gap-2 text-text-muted h-10">
               <span className="w-8 h-[1px] bg-gradient-to-r from-blue-500 to-transparent" />
@@ -106,7 +107,7 @@ const RouteOptimizationView: React.FC = () => {
             <button
               onClick={handleOptimize}
               disabled={isLoading}
-              className="ml-4 flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-500 text-white text-[10px] font-black rounded-xl shadow-lg shadow-blue-500/20 transition-all duration-300 uppercase tracking-[0.15em] transform active:scale-95 disabled:opacity-70 disabled:cursor-not-allowed"
+              className="flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-500 text-white text-[10px] font-black rounded-xl shadow-lg shadow-blue-500/20 transition-all duration-300 uppercase tracking-[0.15em] transform active:scale-95 disabled:opacity-70 disabled:cursor-not-allowed"
             >
               {isLoading ? (
                 <>
@@ -121,16 +122,16 @@ const RouteOptimizationView: React.FC = () => {
           </div>
 
           {/* Scenario Tabs */}
-          <div className="flex p-1 bg-bg-secondary border border-border-default rounded-2xl w-fit">
+          <div className="flex flex-wrap p-1 bg-bg-secondary border border-border-default rounded-2xl w-fit">
             <button
               onClick={() => setActiveScenario('normal')}
-              className={`px-8 py-3 rounded-xl text-xs font-black transition-all duration-300 ${activeScenario === 'normal' ? 'bg-blue-600 text-white shadow-[0_0_20px_rgba(37,99,235,0.4)]' : 'text-text-muted hover:text-text-secondary'}`}
+              className={`px-4 sm:px-8 py-3 rounded-xl text-xs font-black transition-all duration-300 ${activeScenario === 'normal' ? 'bg-blue-600 text-white shadow-[0_0_20px_rgba(37,99,235,0.4)]' : 'text-text-muted hover:text-text-secondary'}`}
             >
               常规运营基准
             </button>
             <button
               onClick={() => setActiveScenario('stress')}
-              className={`px-8 py-3 rounded-xl text-xs font-black transition-all duration-300 flex items-center gap-2 ${activeScenario === 'stress' ? 'bg-red-500 text-white shadow-lg shadow-red-500/20' : 'text-text-muted hover:text-text-secondary'}`}
+              className={`px-4 sm:px-8 py-3 rounded-xl text-xs font-black transition-all duration-300 flex items-center gap-2 ${activeScenario === 'stress' ? 'bg-red-500 text-white shadow-lg shadow-red-500/20' : 'text-text-muted hover:text-text-secondary'}`}
             >
               {activeScenario === 'stress' && <span className="w-1.5 h-1.5 bg-bg-secondary rounded-full animate-ping" />}
               极端拥堵压力测试
@@ -138,28 +139,41 @@ const RouteOptimizationView: React.FC = () => {
           </div>
         </div>
 
-        {/* Weights Panel */}
-        <div className="bg-bg-tertiary/80 backdrop-blur-xl border border-border-default rounded-3xl p-6 min-w-[420px] shadow-2xl">
-          <div className="flex justify-between items-center mb-6">
-            <h4 className="text-xs font-black text-text-primary uppercase tracking-[0.2em]">决策偏好权重</h4>
-            <button
-              onClick={handleReset}
-              className="text-[10px] font-black text-blue-500 hover:text-blue-400 uppercase tracking-widest"
-            >
-              重置
-            </button>
-          </div>
-          <div className="grid grid-cols-2 gap-x-12 gap-y-6">
-            <WeightSlider label="成本" value={weights.cost} onChange={(v) => handleWeightChange('cost', v)} color="blue" />
-            <WeightSlider label="时效" value={weights.time} onChange={(v) => handleWeightChange('time', v)} color="blue" />
-            <WeightSlider label="碳排" value={weights.carbon} onChange={(v) => handleWeightChange('carbon', v)} color="blue" />
-            <div className="flex items-center gap-3 px-2">
-              <span className="text-[9px] text-text-muted font-black uppercase tracking-widest">归一化</span>
-              <span className="text-[10px] text-text-muted font-mono tabular-nums">
-                {(weights.cost / (weights.cost + weights.time + weights.carbon)).toFixed(2)} /{' '}
-                {(weights.time / (weights.cost + weights.time + weights.carbon)).toFixed(2)} /{' '}
-                {(weights.carbon / (weights.cost + weights.time + weights.carbon)).toFixed(2)}
-              </span>
+        {/* Weights Panel - Mobile: collapsible drawer, Desktop: always visible */}
+        <div className="w-full lg:w-auto">
+          {/* Mobile toggle button */}
+          <button
+            onClick={() => setIsWeightsOpen(!isWeightsOpen)}
+            className="lg:hidden w-full flex items-center justify-between bg-bg-tertiary/80 backdrop-blur-xl border border-border-default rounded-2xl px-5 py-3 text-xs font-black text-text-primary uppercase tracking-widest"
+          >
+            <div className="flex items-center gap-2">
+              <Sliders size={14} className="text-blue-500" />
+              决策偏好权重
+            </div>
+            {isWeightsOpen ? <ChevronUp size={16} className="text-text-muted" /> : <ChevronDown size={16} className="text-text-muted" />}
+          </button>
+          <div className={`${isWeightsOpen ? 'block' : 'hidden'} lg:block mt-3 lg:mt-0 bg-bg-tertiary/80 backdrop-blur-xl border border-border-default rounded-3xl p-6 lg:min-w-[420px] shadow-2xl`}>
+            <div className="flex justify-between items-center mb-6">
+              <h4 className="text-xs font-black text-text-primary uppercase tracking-[0.2em]">决策偏好权重</h4>
+              <button
+                onClick={handleReset}
+                className="text-[10px] font-black text-blue-500 hover:text-blue-400 uppercase tracking-widest"
+              >
+                重置
+              </button>
+            </div>
+            <div className="grid grid-cols-2 gap-x-6 sm:gap-x-12 gap-y-6">
+              <WeightSlider label="成本" value={weights.cost} onChange={(v) => handleWeightChange('cost', v)} color="blue" />
+              <WeightSlider label="时效" value={weights.time} onChange={(v) => handleWeightChange('time', v)} color="blue" />
+              <WeightSlider label="碳排" value={weights.carbon} onChange={(v) => handleWeightChange('carbon', v)} color="blue" />
+              <div className="flex items-center gap-3 px-2">
+                <span className="text-[9px] text-text-muted font-black uppercase tracking-widest">归一化</span>
+                <span className="text-[10px] text-text-muted font-mono tabular-nums">
+                  {(weights.cost / (weights.cost + weights.time + weights.carbon)).toFixed(2)} /{' '}
+                  {(weights.time / (weights.cost + weights.time + weights.carbon)).toFixed(2)} /{' '}
+                  {(weights.carbon / (weights.cost + weights.time + weights.carbon)).toFixed(2)}
+                </span>
+              </div>
             </div>
           </div>
         </div>

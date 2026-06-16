@@ -4,8 +4,8 @@ import { Megaphone, ChevronRight } from 'lucide-react';
 
 const UpdatesFeed: React.FC = () => {
   return (
-    <div className="bg-bg-tertiary rounded-[32px] border border-border-default p-8 shadow-2xl flex flex-col h-full relative overflow-hidden group">
-      <div className="flex items-center gap-3 mb-8 relative z-10">
+    <div className="bg-bg-tertiary rounded-2xl md:rounded-[32px] border border-border-default p-4 md:p-8 shadow-2xl flex flex-col h-full relative overflow-hidden group">
+      <div className="flex items-center gap-3 mb-4 md:mb-8 relative z-10">
         <div className="p-2.5 bg-blue-500/10 rounded-xl text-blue-400">
           <Megaphone size={20} />
         </div>
@@ -27,7 +27,7 @@ const UpdatesFeed: React.FC = () => {
         />
       </div>
 
-      <button className="w-full mt-8 py-3 text-[10px] font-black text-text-muted uppercase tracking-widest flex items-center justify-center gap-2 hover:text-blue-400 transition-colors duration-300">
+      <button className="w-full mt-4 md:mt-8 py-3 text-[10px] font-black text-text-muted uppercase tracking-widest flex items-center justify-center gap-2 hover:text-blue-400 transition-colors duration-300">
         查看更多更新 <ChevronRight size={14} />
       </button>
 
@@ -39,7 +39,7 @@ const UpdatesFeed: React.FC = () => {
 };
 
 const UpdateItem = ({ tag, title, desc, date }: any) => (
-  <div className="p-6 bg-bg-primary/40 border border-border-default rounded-[24px] hover:border-blue-500/30 transition-all duration-300 cursor-pointer">
+  <div className="p-4 md:p-6 bg-bg-primary/40 border border-border-default rounded-2xl md:rounded-[24px] hover:border-blue-500/30 transition-all duration-300 cursor-pointer">
     <div className="flex justify-between items-center mb-3">
       <span className="text-[10px] font-black text-blue-500 uppercase tracking-widest">{tag}</span>
       <span className="text-[10px] text-text-muted font-bold font-mono">{date}</span>

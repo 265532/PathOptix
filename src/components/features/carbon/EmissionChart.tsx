@@ -167,8 +167,8 @@ const EmissionChart: React.FC<EmissionChartProps> = ({ activeMode = 'ALL', hasOp
   const currentEmissions = modeConfig.data[modeConfig.data.length - 1]?.emissions ?? 0;
 
   return (
-    <div className="bg-bg-tertiary rounded-3xl p-8 border border-border-default h-full flex flex-col shadow-2xl">
-      <div className="flex justify-between items-center mb-10">
+    <div className="bg-bg-tertiary rounded-3xl p-4 md:p-8 border border-border-default h-full flex flex-col shadow-2xl">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 mb-6 md:mb-10">
         <div>
           <h3 className="text-sm font-black text-text-primary uppercase tracking-widest">
             碳排放实时趋势 (kg/h)
@@ -190,7 +190,7 @@ const EmissionChart: React.FC<EmissionChartProps> = ({ activeMode = 'ALL', hasOp
         </div>
       </div>
 
-      <div className="flex-1">
+      <div className="flex-1 min-h-[200px] md:min-h-0">
         <ResponsiveContainer width="100%" height="100%">
           <AreaChart data={modeConfig.data}>
             <defs>

@@ -50,11 +50,11 @@ const CapacityMatchingModal: React.FC<CapacityMatchingModalProps> = ({ isOpen, o
   ];
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm animate-in fade-in duration-300">
-      <div className="bg-bg-secondary w-full max-w-4xl rounded-[40px] border border-border-default shadow-[0_32px_128px_-16px_rgba(0,0,0,1)] overflow-hidden flex flex-col transform animate-in zoom-in-95 duration-300">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm animate-in fade-in duration-300 p-0 md:p-4">
+      <div className="bg-bg-secondary w-full h-full md:w-auto md:h-auto md:max-w-4xl rounded-none md:rounded-[40px] border border-border-default shadow-[0_32px_128px_-16px_rgba(0,0,0,1)] overflow-hidden flex flex-col transform animate-in zoom-in-95 duration-300">
         
         {/* Header */}
-        <div className="px-10 py-8 border-b border-border-default flex justify-between items-center">
+        <div className="px-6 md:px-10 py-6 md:py-8 border-b border-border-default flex justify-between items-center">
           <div className="flex items-center gap-4">
             <div className="p-2.5 bg-blue-600/20 rounded-xl text-blue-400 border border-blue-500/20 shadow-[0_0_15px_rgba(37,99,235,0.1)]">
               <Share2 size={24} />
@@ -69,9 +69,9 @@ const CapacityMatchingModal: React.FC<CapacityMatchingModalProps> = ({ isOpen, o
           </button>
         </div>
 
-        <div className="p-10 space-y-8">
+        <div className="flex-1 overflow-y-auto px-6 md:px-10 py-6 md:py-10 space-y-8">
           {/* Order Detail Card */}
-          <div className="bg-bg-tertiary border border-border-default rounded-3xl p-6 flex justify-between items-center relative group">
+          <div className="bg-bg-tertiary border border-border-default rounded-3xl p-6 flex flex-col md:flex-row justify-between items-start md:items-center relative group gap-4 md:gap-0">
             <div className="space-y-6">
               <div className="flex items-center gap-3">
                 <span className="px-3 py-1 bg-blue-500/10 border border-blue-500/20 text-blue-400 text-[10px] font-black rounded uppercase tracking-widest">订单详情</span>
@@ -105,7 +105,7 @@ const CapacityMatchingModal: React.FC<CapacityMatchingModalProps> = ({ isOpen, o
             </div>
 
             {/* Map Snippet */}
-            <div className="w-48 h-28 bg-bg-primary rounded-2xl border border-border-default overflow-hidden relative shadow-inner">
+            <div className="hidden md:block w-48 h-28 bg-bg-primary rounded-2xl border border-border-default overflow-hidden relative shadow-inner">
                <img 
                  src={`https://picsum.photos/seed/${origin}-${destination}/200/120?grayscale&blur=2`} 
                  className="w-full h-full object-cover opacity-30" 
@@ -121,7 +121,7 @@ const CapacityMatchingModal: React.FC<CapacityMatchingModalProps> = ({ isOpen, o
           </div>
 
           {/* Transport Mode Grid */}
-          <div className="grid grid-cols-4 gap-6">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
             {transportModes.map((mode) => (
               <button
                 key={mode.id}
@@ -193,7 +193,7 @@ const CapacityMatchingModal: React.FC<CapacityMatchingModalProps> = ({ isOpen, o
         </div>
 
         {/* Footer Actions */}
-        <div className="px-10 py-8 bg-bg-primary/40 border-t border-border-default flex justify-end gap-4">
+        <div className="px-6 md:px-10 py-6 md:py-8 bg-bg-primary/40 border-t border-border-default flex justify-end gap-4">
           <button 
             onClick={onClose}
             className="px-10 py-4 bg-bg-elevated border border-border-default text-text-muted text-sm font-black rounded-2xl hover:bg-bg-tertiary transition-all duration-300 uppercase tracking-[0.2em]"

@@ -65,7 +65,7 @@ const FileManagement: React.FC = () => {
   };
 
   return (
-    <div className="h-full bg-bg-secondary border border-border-default rounded-3xl p-6 flex flex-col gap-6">
+    <div className="h-full bg-bg-secondary border border-border-default rounded-3xl p-4 md:p-6 flex flex-col gap-4 md:gap-6">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
           <Folder size={18} className="text-indigo-400" fill="currentColor" fillOpacity={0.2} />

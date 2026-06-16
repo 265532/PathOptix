@@ -20,43 +20,43 @@ const GlobalRegionView: React.FC<GlobalRegionViewProps> = ({ onBack }) => {
   };
 
   return (
-    <div className="p-10 space-y-10 animate-in slide-in-from-right-4 duration-500 max-w-6xl mx-auto">
+    <div className="p-4 md:p-6 lg:p-8 space-y-4 md:space-y-6 lg:space-y-10 animate-in slide-in-from-right-4 duration-500 max-w-6xl mx-auto">
       {/* 顶部导航 */}
-      <div className="flex justify-between items-center">
-        <div className="flex items-center gap-4">
-          <button 
+      <div className="flex flex-wrap justify-between items-center gap-4">
+        <div className="flex items-center gap-3 md:gap-4">
+          <button
             onClick={onBack}
             className="p-2.5 bg-bg-secondary border border-border-default rounded-xl text-text-muted hover:text-text-primary transition-all duration-300 hover:scale-110 shadow-xl"
           >
             <ChevronLeft size={20} />
           </button>
           <div>
-            <h2 className="text-2xl font-black text-text-primary tracking-tight italic">全球区域与枢纽配置</h2>
-            <p className="text-[10px] text-text-muted font-black uppercase tracking-widest mt-1">Strategic Hubs & Intelligent Scheduling</p>
+            <h2 className="text-lg md:text-2xl font-black text-text-primary tracking-tight italic">全球区域与枢纽配置</h2>
+            <p className="text-[10px] text-text-muted font-black uppercase tracking-widest mt-1 hidden sm:block">Strategic Hubs & Intelligent Scheduling</p>
           </div>
         </div>
-        <div className="flex gap-4">
-           <button className="px-6 py-3 bg-bg-elevated border border-border-default text-text-muted text-xs font-black rounded-xl hover:text-text-primary transition-all duration-300 uppercase tracking-widest">
+        <div className="flex gap-3 md:gap-4">
+           <button className="px-4 md:px-6 py-3 bg-bg-elevated border border-border-default text-text-muted text-xs font-black rounded-xl hover:text-text-primary transition-all duration-300 uppercase tracking-widest">
              重置
            </button>
-           <button 
+           <button
              onClick={handleSaveGlobalConfig}
-             className="px-8 py-3 bg-cyan-600 text-white text-xs font-black rounded-xl shadow-lg shadow-cyan-600/20 hover:scale-105 active:scale-95 transition-all duration-300 flex items-center gap-2 uppercase tracking-widest"
+             className="px-5 md:px-8 py-3 bg-cyan-600 text-white text-xs font-black rounded-xl shadow-lg shadow-cyan-600/20 hover:scale-105 active:scale-95 transition-all duration-300 flex items-center gap-2 uppercase tracking-widest"
            >
              <Save size={14} /> 保存全局配置
            </button>
         </div>
       </div>
 
-      <div className="grid grid-cols-12 gap-8">
+      <div className="grid grid-cols-12 gap-4 md:gap-6 lg:gap-8">
         {/* 左侧主要区域 */}
-        <div className="col-span-12 lg:col-span-7 space-y-8">
+        <div className="col-span-12 lg:col-span-7 space-y-4 md:space-y-6 lg:space-y-8">
           <HubManagement />
           <ComputingClusters />
         </div>
 
         {/* 右侧配置区域 */}
-        <div className="col-span-12 lg:col-span-5 space-y-8 flex flex-col">
+        <div className="col-span-12 lg:col-span-5 space-y-4 md:space-y-6 lg:space-y-8 flex flex-col">
           <SchedulingWeights />
           
           {/* 合规性提示卡片 */}

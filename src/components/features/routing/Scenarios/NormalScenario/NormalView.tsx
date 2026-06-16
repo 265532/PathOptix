@@ -16,7 +16,7 @@ const NormalView: React.FC<NormalViewProps> = ({ rlData, llmReport, startLabel, 
   return (
     <div className="space-y-6 animate-in slide-in-from-bottom-6 duration-700">
       {/* Middle Grid: Comparison Table + Sensitivity Chart */}
-      <div className="grid grid-cols-12 gap-10">
+      <div className="grid grid-cols-12 gap-4 md:gap-6 lg:gap-8">
         <div className="col-span-12 xl:col-span-8">
           <ComparisonTable rlData={rlData} startLabel={startLabel} endLabel={endLabel} />
         </div>

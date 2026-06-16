@@ -20,8 +20,8 @@ const PermissionMatrix: React.FC = () => {
         <h3 className="text-sm font-black text-text-primary uppercase tracking-widest">操作审计权限矩阵</h3>
       </div>
 
-      <div className="flex-1 overflow-x-auto">
-        <table className="w-full">
+      <div className="flex-1 overflow-x-auto -mx-4 px-4 md:mx-0 md:px-0">
+        <table className="w-full min-w-[420px]">
           <thead>
             <tr className="border-b border-border-default">
               <th className="pb-4 text-left text-[9px] font-black text-text-muted uppercase tracking-widest">敏感指令 / 操作</th>

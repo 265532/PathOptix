@@ -17,7 +17,7 @@ const AlertPanel: React.FC<AlertPanelProps> = ({ onOpenLog }) => {
   };
 
   return (
-    <div className="space-y-4 h-full">
+    <div className="space-y-4">
       <div className="bg-red-500/10 border border-red-500/20 rounded-xl p-4 flex gap-3">
         <div className="bg-red-500/20 p-2 rounded-lg h-fit">
           <AlertTriangle className="text-red-500" size={18} />

@@ -22,8 +22,8 @@ const ProgressTracking: React.FC<ProgressTrackingProps> = ({ feedbackList }) => 
   const latestFeedback = feedbackList.length > 0 ? feedbackList[0] : null;
 
   return (
-    <div className="bg-bg-tertiary rounded-[32px] border border-border-default p-8 h-full flex flex-col shadow-2xl relative overflow-hidden">
-      <div className="flex justify-between items-center mb-10">
+    <div className="bg-bg-tertiary rounded-2xl md:rounded-[32px] border border-border-default p-4 md:p-8 h-full flex flex-col shadow-2xl relative overflow-hidden">
+      <div className="flex justify-between items-center mb-4 md:mb-10">
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 bg-emerald-500/10 rounded-xl flex items-center justify-center text-emerald-500">
             <Target size={20} />
@@ -42,7 +42,7 @@ const ProgressTracking: React.FC<ProgressTrackingProps> = ({ feedbackList }) => 
       </div>
 
       {latestFeedback ? (
-        <div className="flex-1 space-y-12 pl-4">
+        <div className="flex-1 space-y-6 md:space-y-12 pl-4">
           <ProgressStep 
             icon={<CheckCircle2 size={18} />} 
             title="提交反馈" 

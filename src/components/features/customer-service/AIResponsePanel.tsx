@@ -4,7 +4,7 @@ import { Zap, Sparkles, Send } from 'lucide-react';
 
 const AIResponsePanel: React.FC = () => {
   return (
-    <div className="bg-bg-secondary border border-border-default rounded-3xl p-6 shadow-xl flex flex-col gap-6">
+    <div className="bg-bg-secondary border border-border-default rounded-2xl md:rounded-3xl p-4 md:p-6 shadow-xl flex flex-col gap-4 md:gap-6">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
           <Zap size={18} className="text-purple-400" fill="currentColor" fillOpacity={0.2} />

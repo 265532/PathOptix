@@ -98,7 +98,7 @@ const LogPanel: React.FC<LogPanelProps> = ({ pathStepLogs = [] }) => {
   }, []);
 
   return (
-    <div className="bg-bg-secondary rounded-2xl p-6 border border-border-default flex flex-col h-[700px] overflow-hidden">
+    <div className="bg-bg-secondary rounded-2xl p-4 md:p-6 border border-border-default flex flex-col h-[300px] lg:h-[700px] overflow-hidden">
       <div className="flex justify-between items-center shrink-0">
         <div className="flex items-center gap-2 text-text-secondary">
           <Terminal size={16} className="text-blue-400" />

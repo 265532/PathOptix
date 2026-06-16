@@ -41,8 +41,8 @@ const FutureRiskRadar: React.FC<FutureRiskRadarProps> = ({ risks, currentTimeLab
   };
 
   return (
-    <div className="bg-bg-secondary border border-border-default rounded-3xl p-8 flex flex-col">
-      <div className="flex items-center gap-3 mb-8">
+    <div className="bg-bg-secondary border border-border-default rounded-3xl p-4 md:p-8 flex flex-col">
+      <div className="flex items-center gap-3 mb-4 md:mb-8">
         <div className="w-8 h-8 bg-red-500/10 rounded-full flex items-center justify-center border border-red-500/20">
           <AlertTriangle size={16} className="text-red-400" />
         </div>

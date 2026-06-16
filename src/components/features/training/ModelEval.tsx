@@ -33,7 +33,7 @@ const ModelEval: React.FC = () => {
   const rewardTrend = avgReward >= 140;
 
   return (
-    <div className="bg-bg-secondary rounded-2xl p-5 border border-border-default flex flex-col gap-5 flex-1">
+    <div className="bg-bg-secondary rounded-2xl p-4 md:p-5 border border-border-default flex flex-col gap-4 md:gap-5 flex-1">
       <div className="flex items-center gap-2 text-text-secondary">
         <BarChart3 size={16} className="text-cyan-400" />
         <span className="text-xs font-bold tracking-wider uppercase">模型评估</span>

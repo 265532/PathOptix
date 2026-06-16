@@ -42,7 +42,7 @@ const BottomMetrics: React.FC = () => {
   const fmt = (n: number, d: number) => Number(n.toFixed(d));
 
   return (
-    <div className="grid grid-cols-5 gap-6">
+    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 lg:gap-6">
       <MetricCard
         icon={<Clock size={20} />}
         label="训练用时"
@@ -75,13 +75,13 @@ const BottomMetrics: React.FC = () => {
 };
 
 const MetricCard = ({ icon, label, value, accent = "text-text-primary" }: any) => (
-  <div className="bg-bg-secondary rounded-2xl p-6 border border-border-default flex items-center gap-6 group hover:border-blue-500/30 transition-all duration-300">
-    <div className="w-14 h-14 bg-bg-modal rounded-2xl flex items-center justify-center text-text-muted group-hover:text-blue-400 transition-colors duration-300">
+  <div className="bg-bg-secondary rounded-2xl p-3 lg:p-6 border border-border-default flex items-center gap-3 lg:gap-6 group hover:border-blue-500/30 transition-all duration-300">
+    <div className="w-10 h-10 lg:w-14 lg:h-14 bg-bg-modal rounded-xl lg:rounded-2xl flex items-center justify-center text-text-muted group-hover:text-blue-400 transition-colors duration-300 shrink-0">
       {icon}
     </div>
-    <div className="flex flex-col gap-1">
-      <span className="text-[10px] text-text-muted font-black uppercase tracking-widest">{label}</span>
-      <span className={`text-xl font-black ${accent} tabular-nums`}>{value}</span>
+    <div className="flex flex-col gap-0.5 lg:gap-1 min-w-0">
+      <span className="text-[9px] lg:text-[10px] text-text-muted font-black uppercase tracking-widest truncate">{label}</span>
+      <span className={`text-base lg:text-xl font-black ${accent} tabular-nums`}>{value}</span>
     </div>
   </div>
 );

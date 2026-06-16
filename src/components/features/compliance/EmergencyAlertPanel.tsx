@@ -8,8 +8,8 @@ interface EmergencyAlertPanelProps {
 
 const EmergencyAlertPanel: React.FC<EmergencyAlertPanelProps> = ({ news }) => {
   return (
-    <div className="h-full bg-bg-secondary border border-border-default rounded-3xl p-6 relative overflow-hidden flex flex-col">
-      <div className="flex items-center gap-2 mb-6">
+    <div className="h-full bg-bg-secondary border border-border-default rounded-3xl p-4 md:p-6 relative overflow-hidden flex flex-col">
+      <div className="flex items-center gap-2 mb-4 md:mb-6">
         <div className="w-8 h-8 bg-red-500/10 rounded-full flex items-center justify-center border border-red-500/20">
           <AlertTriangle size={16} className="text-red-400" />
         </div>

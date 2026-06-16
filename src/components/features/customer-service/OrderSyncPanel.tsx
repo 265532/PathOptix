@@ -57,8 +57,8 @@ const OrderSyncPanel: React.FC<OrderSyncPanelProps> = ({ activeOrder, onOrderCha
   };
 
   return (
-    <div className="bg-bg-tertiary rounded-[32px] border border-border-default p-8 h-[600px] flex flex-col shadow-2xl relative">
-      <div className="flex justify-between items-center mb-8">
+    <div className="bg-bg-tertiary rounded-2xl md:rounded-[32px] border border-border-default p-4 md:p-8 h-auto md:h-[600px] flex flex-col shadow-2xl relative">
+      <div className="flex justify-between items-center mb-4 md:mb-8">
         <div className="flex items-center gap-3">
           <Layers size={20} className="text-blue-400" />
           <h3 className="text-sm font-black text-text-primary uppercase tracking-widest">订单信息同步</h3>
@@ -106,7 +106,7 @@ const OrderSyncPanel: React.FC<OrderSyncPanelProps> = ({ activeOrder, onOrderCha
       <button
         onClick={handleAgentTrigger}
         disabled={isAgentRunning}
-        className={`w-full mt-8 py-5 text-white text-xs font-black rounded-2xl shadow-xl uppercase tracking-widest hover:scale-[1.02] transition-all duration-300 flex items-center justify-center gap-2 relative overflow-hidden disabled:hover:scale-100 ${
+        className={`w-full mt-4 md:mt-8 py-4 md:py-5 text-white text-xs font-black rounded-2xl shadow-xl uppercase tracking-widest hover:scale-[1.02] transition-all duration-300 flex items-center justify-center gap-2 relative overflow-hidden disabled:hover:scale-100 ${
           isAgentRunning
             ? 'bg-gradient-to-r from-amber-600 to-orange-600 shadow-orange-600/30'
             : 'bg-gradient-to-r from-blue-600 to-indigo-600 shadow-indigo-600/30 hover:shadow-indigo-500/40'

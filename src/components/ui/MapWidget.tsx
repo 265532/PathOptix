@@ -4,25 +4,25 @@ import { Activity, Zap, Info } from 'lucide-react';
 
 const MapWidget: React.FC = () => {
   return (
-    <div className="bg-bg-secondary/80 backdrop-blur-xl rounded-[32px] border border-border-default p-10 relative overflow-hidden h-[600px] shadow-2xl flex flex-col">
-      <div className="flex justify-between items-start z-10">
+    <div className="bg-bg-secondary/80 backdrop-blur-xl rounded-[32px] border border-border-default p-4 md:p-6 lg:p-10 relative overflow-hidden h-[300px] md:h-[400px] lg:h-[500px] xl:h-[600px] shadow-2xl flex flex-col">
+      <div className="flex flex-col sm:flex-row justify-between items-start z-10 gap-3">
         <div>
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2 md:gap-3">
             <div className="text-cyan-400">
-              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="md:w-[28px] md:h-[28px]">
                 <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
               </svg>
             </div>
-            <h3 className="text-3xl font-black text-text-primary tracking-tight italic">全球实时智能态势</h3>
+            <h3 className="text-lg md:text-2xl lg:text-3xl font-black text-text-primary tracking-tight italic">全球实时智能态势</h3>
           </div>
           <p className="text-[10px] text-cyan-500 font-black uppercase tracking-[0.2em] mt-2 ml-1">
             自主路径 management system
           </p>
         </div>
 
-        <div className="px-4 py-2 bg-emerald-500/5 border border-emerald-500/20 rounded-full flex items-center gap-3 group cursor-pointer hover:bg-emerald-500/10 transition-all">
-          <div className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.8)]" />
-          <span className="text-[10px] font-black text-text-secondary uppercase tracking-widest">神经网络路径优化已激活</span>
+        <div className="px-3 md:px-4 py-1.5 md:py-2 bg-emerald-500/5 border border-emerald-500/20 rounded-full flex items-center gap-2 md:gap-3 group cursor-pointer hover:bg-emerald-500/10 transition-all">
+          <div className="w-2 md:w-2.5 h-2 md:h-2.5 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.8)]" />
+          <span className="text-[9px] md:text-[10px] font-black text-text-secondary uppercase tracking-widest">神经网络路径优化已激活</span>
         </div>
       </div>
 
@@ -98,9 +98,9 @@ const MapWidget: React.FC = () => {
         </svg>
       </div>
 
-      <div className="absolute bottom-10 left-10 flex items-center gap-6 z-20">
-        <div className="bg-bg-modal/60 backdrop-blur-md border border-border-default p-6 rounded-[28px] flex items-center gap-8 shadow-2xl group hover:border-cyan-500/30 transition-all">
-          <div className="relative w-24 h-24 flex items-center justify-center shrink-0">
+      <div className="absolute bottom-4 left-4 md:bottom-10 md:left-10 flex items-center gap-6 z-20">
+        <div className="bg-bg-modal/60 backdrop-blur-md border border-border-default p-3 md:p-6 rounded-[16px] md:rounded-[28px] flex items-center gap-4 md:gap-8 shadow-2xl group hover:border-cyan-500/30 transition-all">
+          <div className="relative w-14 h-14 md:w-24 md:h-24 flex items-center justify-center shrink-0">
             <svg viewBox="0 0 100 100" className="w-full h-full transform -rotate-90 overflow-visible">
               <circle cx="50" cy="50" r="42" stroke="#1e293b" strokeWidth="8" fill="transparent" />
               <circle 
@@ -110,16 +110,16 @@ const MapWidget: React.FC = () => {
               />
             </svg>
             <div className="absolute flex flex-col items-center">
-              <span className="text-2xl font-black text-text-primary italic leading-none">78%</span>
+              <span className="text-sm md:text-2xl font-black text-text-primary italic leading-none">78%</span>
             </div>
-            <div className="absolute -top-3 px-2 bg-bg-secondary border border-border-default rounded-md">
-               <span className="text-[8px] text-text-muted font-black uppercase tracking-widest whitespace-nowrap">置信度评分</span>
+            <div className="absolute -top-2 md:-top-3 px-1 md:px-2 bg-bg-secondary border border-border-default rounded-md">
+               <span className="text-[7px] md:text-[8px] text-text-muted font-black uppercase tracking-widest whitespace-nowrap">置信度评分</span>
             </div>
           </div>
           
-          <div className="space-y-2">
+          <div className="space-y-2 hidden sm:block">
             <div className="space-y-0.5">
-              <h4 className="text-xl font-black text-text-primary tracking-tight italic group-hover:text-cyan-400 transition-colors">高可靠性</h4>
+              <h4 className="text-sm md:text-xl font-black text-text-primary tracking-tight italic group-hover:text-cyan-400 transition-colors">高可靠性</h4>
               <p className="text-[10px] text-text-muted font-black uppercase tracking-widest">机器学习模型 V4.2.0-稳定版</p>
             </div>
             
@@ -137,7 +137,7 @@ const MapWidget: React.FC = () => {
         </div>
       </div>
 
-      <div className="absolute bottom-10 right-10 bg-bg-elevated/60 backdrop-blur-2xl border border-border-default p-6 rounded-2xl min-w-[180px] z-10 shadow-2xl">
+      <div className="hidden md:block absolute bottom-10 right-10 bg-bg-elevated/60 backdrop-blur-2xl border border-border-default p-6 rounded-2xl min-w-[180px] z-10 shadow-2xl">
         <div className="flex items-center justify-between mb-4 border-b border-border-default pb-3">
           <span className="text-[10px] font-black text-text-muted uppercase tracking-widest">全局节点图例</span>
           <Info size={12} className="text-text-muted" />

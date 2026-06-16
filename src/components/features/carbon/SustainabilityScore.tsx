@@ -15,22 +15,22 @@ const SustainabilityScore: React.FC<SustainabilityScoreProps> = ({ hasOptimized 
   const offset = circumference - (score / 100) * circumference;
 
   return (
-    <div className="bg-bg-tertiary rounded-3xl p-6 border border-border-default flex items-center justify-between group shadow-xl">
-      <div className="space-y-2 flex-1">
-        <div className="flex items-center gap-2 text-emerald-400">
+    <div className="bg-bg-tertiary rounded-3xl p-4 md:p-6 border border-border-default flex flex-col sm:flex-row items-center justify-between gap-4 group shadow-xl">
+      <div className="space-y-2 flex-1 text-center sm:text-left">
+        <div className="flex items-center gap-2 text-emerald-400 justify-center sm:justify-start">
           <Award size={18} />
           <h3 className="text-[10px] font-black uppercase tracking-[0.2em]">AI 供应链 ESG 评级</h3>
         </div>
         <div className={`text-2xl font-black italic tracking-tighter ${hasOptimized ? 'text-emerald-300 drop-shadow-[0_0_12px_rgba(16,185,129,0.6)]' : 'text-text-primary'}`}>
           等级: {hasOptimized ? 'S' : 'A+'}
         </div>
-        <p className="text-[10px] text-text-muted font-bold leading-relaxed max-w-[140px]">
+        <p className="text-[10px] text-text-muted font-bold leading-relaxed">
           多目标优化策略有效减少了 <span className="text-emerald-400">{hasOptimized ? '45%' : '22%'}</span> 的无效空运与绕路碳消耗。
         </p>
       </div>
 
       {/* 优化后的仪表盘容器 */}
-      <div className="relative w-32 h-32 flex items-center justify-center shrink-0">
+      <div className="relative w-28 h-28 md:w-32 md:h-32 flex items-center justify-center shrink-0">
         {/* 背景光晕 */}
         <div className="absolute inset-4 bg-emerald-500/5 blur-[25px] rounded-full opacity-60" />
         

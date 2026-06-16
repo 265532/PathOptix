@@ -21,7 +21,7 @@ const PatencyScore: React.FC<PatencyScoreProps> = ({ score }) => {
   const cfg = getScoreColor(score);
 
   return (
-    <div className="h-full bg-bg-secondary border border-border-default rounded-3xl p-6 relative overflow-hidden flex flex-col items-center justify-center">
+    <div className="h-full bg-bg-secondary border border-border-default rounded-3xl p-4 md:p-6 relative overflow-hidden flex flex-col items-center justify-center">
       <div className="flex items-center gap-2 mb-6 self-start">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-cyan-400">
           <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
@@ -35,7 +35,7 @@ const PatencyScore: React.FC<PatencyScoreProps> = ({ score }) => {
       </div>
 
       <div className="flex-1 flex flex-col items-center justify-center gap-4">
-        <div className="relative w-44 h-44 flex items-center justify-center">
+        <div className="relative w-32 h-32 md:w-44 md:h-44 flex items-center justify-center">
           <div className="absolute inset-8 blur-[35px] rounded-full opacity-60" style={{ backgroundColor: cfg.stroke + '0D' }} />
           <svg viewBox="0 0 160 160" className="w-full h-full transform -rotate-90 overflow-visible" style={{ filter: `drop-shadow(0 0 12px ${cfg.stroke}26)` }}>
             <circle cx="80" cy="80" r={radius} stroke="#1e293b" strokeWidth="10" fill="transparent" strokeOpacity="0.3" />
@@ -52,7 +52,7 @@ const PatencyScore: React.FC<PatencyScoreProps> = ({ score }) => {
           </svg>
           <div className="absolute flex flex-col items-center justify-center text-center">
             <div className="flex items-baseline">
-              <span className="text-5xl font-black text-text-primary tracking-tighter italic drop-shadow-lg">
+              <span className="text-4xl md:text-5xl font-black text-text-primary tracking-tighter italic drop-shadow-lg">
                 {score.toFixed(1)}
               </span>
               <span className="text-lg font-bold ml-0.5" style={{ color: cfg.stroke }}>%</span>

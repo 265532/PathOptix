@@ -318,16 +318,16 @@ const Visualizer: React.FC<VisualizerProps> = ({ onPathStep }) => {
   };
 
   return (
-    <div className="bg-bg-secondary rounded-3xl p-8 border border-border-default shadow-lg shadow-slate-200/50 flex-1 flex flex-col gap-6">
+    <div className="bg-bg-secondary rounded-3xl p-4 md:p-8 border border-border-default shadow-lg shadow-slate-200/50 flex-1 flex flex-col gap-4 md:gap-6">
       {/* ─── Header ─── */}
-      <div className="flex justify-between items-center">
-        <div className="flex items-center gap-4">
-          <div className="w-12 h-12 bg-blue-50 rounded-xl flex items-center justify-center text-blue-500 border border-blue-200">
-            <Compass size={24} />
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+        <div className="flex items-center gap-3 md:gap-4">
+          <div className="w-10 h-10 md:w-12 md:h-12 bg-blue-50 rounded-xl flex items-center justify-center text-blue-500 border border-blue-200">
+            <Compass size={20} />
           </div>
           <div>
-            <h3 className="text-xl font-black text-text-primary">路径可视化</h3>
-            <p className="text-[10px] text-text-muted font-bold uppercase tracking-widest">
+            <h3 className="text-lg md:text-xl font-black text-text-primary">路径可视化</h3>
+            <p className="text-[9px] md:text-[10px] text-text-muted font-bold uppercase tracking-widest">
               SOUTH CHINA SEA · RL LOGISTICS TACTICAL DISPLAY
             </p>
           </div>
@@ -346,11 +346,11 @@ const Visualizer: React.FC<VisualizerProps> = ({ onPathStep }) => {
 
       {/* ─── 演示路径标签 ─── */}
       {activeDemo >= 0 && (
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2 md:gap-3 flex-wrap">
           {DEMO_PATHS.map((p, i) => (
             <div
               key={p.id}
-              className={`flex items-center gap-2 px-3 py-1.5 rounded-lg border text-[10px] font-black uppercase tracking-wider transition-all duration-300 ${
+              className={`flex items-center gap-1.5 md:gap-2 px-2 md:px-3 py-1 md:py-1.5 rounded-lg border text-[9px] md:text-[10px] font-black uppercase tracking-wider transition-all duration-300 ${
                 activeDemo === i
                   ? 'border-current bg-bg-tertiary/50 shadow-sm'
                   : 'border-border-default bg-transparent opacity-40'
@@ -624,23 +624,23 @@ const Visualizer: React.FC<VisualizerProps> = ({ onPathStep }) => {
         </svg>
 
         {/* ══════ 左下角图例 ══════ */}
-        <div className="absolute bottom-4 left-4 flex items-center gap-5 bg-white/80 backdrop-blur-md px-5 py-2.5 rounded-full border border-border-default shadow-lg shadow-slate-200/50 z-10">
+        <div className="hidden sm:flex absolute bottom-4 left-4 items-center gap-3 md:gap-5 bg-white/80 backdrop-blur-md px-3 md:px-5 py-2 md:py-2.5 rounded-full border border-border-default shadow-lg shadow-slate-200/50 z-10">
           <div className="flex items-center gap-2">
             <div className="w-5 h-[2px] bg-cyan-500 shadow-[0_0_6px_rgba(6,182,212,0.5)] rounded-full" />
-            <span className="text-[9px] text-text-muted font-black uppercase tracking-tight">最优策略 (Policy)</span>
+            <span className="text-[8px] md:text-[9px] text-text-muted font-black uppercase tracking-tight">最优策略 (Policy)</span>
           </div>
           <div className="flex items-center gap-2">
             <div className="w-5 h-[2px] bg-text-muted rounded-full" style={{ backgroundImage: 'repeating-linear-gradient(90deg, #94a3b8 0, #94a3b8 4px, transparent 4px, transparent 7px)' }} />
-            <span className="text-[9px] text-text-muted font-black uppercase tracking-tight">历史尝试 (Exploration)</span>
+            <span className="text-[8px] md:text-[9px] text-text-muted font-black uppercase tracking-tight">历史尝试 (Exploration)</span>
           </div>
           <div className="flex items-center gap-2">
             <div className="w-3 h-3 rounded-full bg-red-400/30 border border-red-400/50" />
-            <span className="text-[9px] text-red-500 font-black uppercase tracking-tight">风险区 (Penalty)</span>
+            <span className="text-[8px] md:text-[9px] text-red-500 font-black uppercase tracking-tight">风险区 (Penalty)</span>
           </div>
         </div>
 
         {/* ══════ 右侧信息浮层（动态联动路径动画） ══════ */}
-        <div className="absolute top-4 right-4 bg-white/80 backdrop-blur-md p-5 rounded-2xl border border-border-default space-y-2.5 min-w-[220px] shadow-lg shadow-slate-200/50 z-10">
+        <div className="hidden md:block absolute top-4 right-4 bg-white/80 backdrop-blur-md p-5 rounded-2xl border border-border-default space-y-2.5 min-w-[220px] shadow-lg shadow-slate-200/50 z-10">
           <div className="text-[8px] text-text-muted font-black uppercase tracking-[0.2em] mb-3 border-b border-border-default pb-2">
             实时状态观测 · OBSERVER
           </div>

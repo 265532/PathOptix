@@ -22,8 +22,8 @@ const FilterModal: React.FC<FilterModalProps> = ({ isOpen, onClose, onApply }) =
   };
 
   return (
-    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-      <div className="bg-bg-secondary border border-border-default rounded-2xl p-6 w-full max-w-md animate-in fade-in zoom-in-95 duration-300">
+    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-0 md:p-4">
+      <div className="bg-bg-secondary border border-border-default rounded-none md:rounded-2xl p-6 w-full h-full md:w-auto md:h-auto md:max-w-md animate-in fade-in zoom-in-95 duration-300 overflow-y-auto">
         <div className="flex justify-between items-center mb-6">
           <h3 className="text-lg font-bold text-text-primary">订单过滤器</h3>
           <button

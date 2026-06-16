@@ -13,15 +13,15 @@ const SentimentChart: React.FC = () => {
   const chartTheme = useChartTheme();
 
   return (
-    <div className="bg-bg-secondary border border-border-default rounded-3xl p-6 shadow-xl">
-      <div className="flex items-center justify-between mb-6">
+    <div className="bg-bg-secondary border border-border-default rounded-2xl md:rounded-3xl p-4 md:p-6 shadow-xl">
+      <div className="flex items-center justify-between mb-4 md:mb-6">
         <div className="flex items-center gap-3">
           <Smile size={18} className="text-emerald-400" />
           <h3 className="text-sm font-black text-text-primary uppercase tracking-widest">客户情感实时极性</h3>
         </div>
       </div>
 
-      <div className="h-48 relative">
+      <div className="h-36 md:h-48 relative">
         <ResponsiveContainer width="100%" height="100%">
           <PieChart>
             <Pie

@@ -52,25 +52,25 @@ const SettingsView: React.FC<SettingsViewProps> = ({ onLogout }) => {
 
   // 默认设置列表视图
   return (
-    <div className="p-10 space-y-10 animate-in slide-in-from-right-4 duration-500 max-w-4xl mx-auto">
+    <div className="p-4 md:p-6 lg:p-8 space-y-4 md:space-y-6 lg:space-y-10 animate-in slide-in-from-right-4 duration-500 max-w-4xl mx-auto">
       <div>
         <h2 className="text-3xl font-black text-text-primary italic tracking-tight">系统设置中心</h2>
         <p className="text-text-muted mt-2 font-medium">全局配置您的 PATHOPTIX 核心优化引擎</p>
       </div>
-      <div className="space-y-4">
+      <div className="flex gap-4 overflow-x-auto scrollbar-hide md:flex-col md:overflow-x-visible">
         {sections.map((section, idx) => (
-          <div 
-            key={idx} 
+          <div
+            key={idx}
             onClick={() => setActiveSubView(section.id as any)}
-            className="bg-bg-secondary border border-border-default rounded-3xl p-6 flex items-center justify-between group cursor-pointer hover:border-indigo-500/30 transition-all duration-300 active:scale-[0.99] shadow-lg"
+            className="shrink-0 min-w-[260px] md:min-w-0 bg-bg-secondary border border-border-default rounded-3xl p-5 md:p-6 flex items-center justify-between group cursor-pointer hover:border-indigo-500/30 transition-all duration-300 active:scale-[0.99] shadow-lg"
           >
-            <div className="flex items-center gap-6">
-              <div className={`w-14 h-14 bg-bg-primary rounded-2xl flex items-center justify-center text-text-muted group-hover:text-indigo-400 transition-all duration-300 shadow-inner group-hover:shadow-[0_0_15px_rgba(99,102,241,0.1)]`}>
+            <div className="flex items-center gap-4 md:gap-6">
+              <div className={`w-12 h-12 md:w-14 md:h-14 bg-bg-primary rounded-2xl flex items-center justify-center text-text-muted group-hover:text-indigo-400 transition-all duration-300 shadow-inner group-hover:shadow-[0_0_15px_rgba(99,102,241,0.1)]`}>
                 {section.icon}
               </div>
               <div>
-                <h4 className="text-lg font-bold text-text-primary mb-1 group-hover:italic transition-all duration-300">{section.title}</h4>
-                <p className="text-sm text-text-muted">{section.desc}</p>
+                <h4 className="text-base md:text-lg font-bold text-text-primary mb-1 group-hover:italic transition-all duration-300">{section.title}</h4>
+                <p className="text-xs md:text-sm text-text-muted hidden sm:block">{section.desc}</p>
               </div>
             </div>
             <div className="text-text-muted group-hover:text-indigo-400 group-hover:translate-x-1 transition-all duration-300">

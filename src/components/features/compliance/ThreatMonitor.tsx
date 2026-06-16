@@ -4,11 +4,11 @@ import { Activity, ShieldAlert, Globe, Radar } from 'lucide-react';
 
 const ThreatMonitor: React.FC = () => {
   return (
-    <div className="bg-bg-secondary rounded-3xl p-8 border border-border-default h-full flex flex-col shadow-2xl relative overflow-hidden group">
+    <div className="bg-bg-secondary rounded-3xl p-4 md:p-8 border border-border-default h-full flex flex-col shadow-2xl relative overflow-hidden group">
       {/* 装饰性背景网格 */}
       <div className="absolute inset-0 bg-[radial-gradient(#4f46e5_1px,transparent_1px)] [background-size:24px_24px] opacity-5 pointer-events-none" />
       
-      <div className="flex justify-between items-center mb-10 relative z-10">
+      <div className="flex justify-between items-center mb-6 md:mb-10 relative z-10">
         <div>
           <div className="flex items-center gap-2">
             <Radar size={18} className="text-indigo-400 animate-spin-slow" />
@@ -21,7 +21,7 @@ const ThreatMonitor: React.FC = () => {
         </div>
       </div>
 
-      <div className="flex-1 grid grid-cols-2 gap-8 relative z-10">
+      <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-8 relative z-10">
         <div className="bg-black/40 rounded-2xl border border-border-default p-6 flex flex-col justify-center items-center gap-4 group/box hover:border-indigo-500/30 transition-all duration-300">
           <div className="w-20 h-20 rounded-full border-4 border-border-default flex items-center justify-center relative">
              <div className="absolute inset-0 border-4 border-indigo-500 border-t-transparent rounded-full animate-spin" />
@@ -41,7 +41,7 @@ const ThreatMonitor: React.FC = () => {
         </div>
       </div>
 
-      <div className="mt-8 p-4 bg-indigo-500/5 rounded-2xl border border-indigo-500/10 flex items-center justify-between relative z-10">
+      <div className="mt-6 md:mt-8 p-4 bg-indigo-500/5 rounded-2xl border border-indigo-500/10 flex items-center justify-between relative z-10">
         <div className="flex items-center gap-3">
           <Globe size={16} className="text-indigo-400" />
           <span className="text-[10px] text-text-secondary font-bold uppercase tracking-widest">全球 IP 过滤黑名单</span>

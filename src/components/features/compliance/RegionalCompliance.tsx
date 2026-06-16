@@ -6,7 +6,7 @@ const RegionalCompliance: React.FC = () => {
   const [expandedRow, setExpandedRow] = useState<number | null>(1);
 
   return (
-    <div className="bg-bg-secondary border border-border-default rounded-3xl p-8 flex flex-col gap-8">
+    <div className="bg-bg-secondary border border-border-default rounded-3xl p-4 md:p-8 flex flex-col gap-4 md:gap-8">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
           <div className="text-indigo-400"><BarChart2 size={20} /></div>
@@ -14,8 +14,8 @@ const RegionalCompliance: React.FC = () => {
         </div>
       </div>
 
-      <div className="overflow-hidden">
-        <table className="w-full">
+      <div className="overflow-x-auto -mx-4 md:mx-0">
+        <table className="w-full min-w-[600px]">
           <thead>
             <tr className="border-b border-border-default">
               <th className="pb-4 text-left text-[10px] font-black text-text-muted uppercase tracking-widest">区域名称</th>

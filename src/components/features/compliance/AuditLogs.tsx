@@ -11,8 +11,8 @@ const AuditLogs: React.FC = () => {
   ];
 
   return (
-    <div className="bg-bg-secondary rounded-3xl p-8 border border-border-default shadow-2xl">
-      <div className="flex items-center justify-between mb-8">
+    <div className="bg-bg-secondary rounded-3xl p-4 md:p-8 border border-border-default shadow-2xl">
+      <div className="flex items-center justify-between mb-4 md:mb-8">
         <div className="flex items-center gap-3">
           <ScrollText size={18} className="text-indigo-400" />
           <h3 className="text-sm font-black text-text-primary uppercase tracking-widest">安全审计与回溯日志</h3>

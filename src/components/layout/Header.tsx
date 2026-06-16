@@ -11,10 +11,18 @@ interface HeaderProps {
   onToggleSidebar?: () => void;
 }
 
+interface Notification {
+  title: string;
+  message: string;
+  type: 'success' | 'info' | 'warning';
+  icon: string;
+  time: string;
+}
+
 const Header: React.FC<HeaderProps> = ({ onLogout, onViewChange, isSidebarCollapsed, onToggleSidebar }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
-  const [notifications, setNotifications] = useState<any[]>([]);
+  const [notifications, setNotifications] = useState<Notification[]>([]);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const notificationRef = useRef<HTMLDivElement>(null);
 
@@ -83,7 +91,7 @@ const Header: React.FC<HeaderProps> = ({ onLogout, onViewChange, isSidebarCollap
   };
 
   return (
-    <header className="h-20 border-b border-border-default bg-bg-secondary/60 backdrop-blur-xl px-10 flex items-center justify-between sticky top-0 z-50 shadow-sm">
+    <header className="h-20 border-b border-border-default bg-bg-secondary/60 backdrop-blur-xl px-4 md:px-10 flex items-center justify-between sticky top-0 z-50 shadow-sm">
       {onToggleSidebar && (
         <CollapseToggle
           isCollapsed={!!isSidebarCollapsed}
@@ -92,27 +100,27 @@ const Header: React.FC<HeaderProps> = ({ onLogout, onViewChange, isSidebarCollap
           className="shrink-0 mr-3"
         />
       )}
-      <div className="flex items-center gap-4">
-        <div className="flex items-center gap-2 px-3 py-1.5 bg-bg-secondary border  border-cyan-500/20 rounded-lg">
-           < Zap size={18} className="text-cyan-500" fill="currentColor" />
-           <span className="text-sm font-black tracking-widest text-cyan-400">RK</span>
+      <div className="flex items-center gap-2 md:gap-4 min-w-0">
+        <div className="flex items-center gap-1.5 md:gap-2 px-2 py-1 md:px-3 md:py-1.5 bg-bg-secondary border border-cyan-500/20 rounded-lg shrink-0">
+           <Zap size={14} className="text-cyan-500 md:!w-[18px] md:!h-[18px]" fill="currentColor" />
+           <span className="text-xs md:text-sm font-black tracking-widest text-cyan-400">RK</span>
         </div>
-        <div className="h-6 w-px bg-border-default mx-2" />
-        <h1 className="text-lg font-bold text-text-primary tracking-tight">强化学习路径优化引擎</h1>
-        
-        <div className="ml-8 px-4 py-1.5 bg-emerald-500/10 border border-emerald-500/20 rounded-full flex items-center gap-2.5">
+        <div className="h-6 w-px bg-border-default mx-2 hidden md:block" />
+        <h1 className="text-lg font-bold text-text-primary tracking-tight hidden md:block">强化学习路径优化引擎</h1>
+
+        <div className="ml-2 md:ml-8 px-3 md:px-4 py-1.5 bg-emerald-500/10 border border-emerald-500/20 rounded-full items-center gap-2.5 hidden md:flex">
           <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.8)]" />
           <span className="text-[11px] font-black text-emerald-500 uppercase tracking-widest">系统健康</span>
         </div>
       </div>
 
-      <div className="flex items-center gap-6">
-        <div className="flex items-center gap-2 text-text-muted text-xs font-medium">
+      <div className="flex items-center gap-2 md:gap-6 shrink-0">
+        <div className="hidden md:flex items-center gap-2 text-text-muted text-xs font-medium">
           <Activity size={14} />
           <span>延迟: 24ms</span>
         </div>
 
-        <div className="h-10 w-px bg-border-default mx-2" />
+        <div className="h-10 w-px bg-border-default mx-2 hidden md:block" />
 
         <ThemeToggle />
 
@@ -126,7 +134,7 @@ const Header: React.FC<HeaderProps> = ({ onLogout, onViewChange, isSidebarCollap
           </button>
 
           {isNotificationOpen && (
-            <div className="absolute top-full right-0 mt-3 w-80 bg-bg-secondary backdrop-blur-2xl border border-border-default rounded-[28px] shadow-[0_32px_64px_-16px_rgba(0,0,0,0.8)] overflow-hidden animate-in fade-in slide-in-from-top-2 duration-300 origin-top-right z-50">
+            <div className="absolute top-full right-0 mt-3 w-[calc(100vw-2rem)] md:w-80 bg-bg-secondary backdrop-blur-2xl border border-border-default rounded-[28px] shadow-[0_32px_64px_-16px_rgba(0,0,0,0.8)] overflow-hidden animate-in fade-in slide-in-from-top-2 duration-300 origin-top-right z-50">
               <div className="p-4 border-b border-border-default/50 bg-bg-tertiary/40 flex justify-between items-center">
                 <h3 className="text-sm font-bold text-text-primary">系统通知</h3>
                 <span className="text-[10px] font-bold text-text-muted">{notifications.length} 条新消息</span>
@@ -173,7 +181,7 @@ const Header: React.FC<HeaderProps> = ({ onLogout, onViewChange, isSidebarCollap
               isDropdownOpen ? 'bg-bg-tertiary/80 border-brand-primary/30' : 'border-transparent hover:bg-bg-tertiary/30'
             }`}
           >
-            <div className="text-right hidden sm:block">
+            <div className="text-right hidden md:block">
               <div className={`text-sm font-black transition-colors ${isDropdownOpen ? 'text-brand-primary' : 'text-text-primary group-hover:text-brand-primary'}`}>
                 管理员账户
               </div>
@@ -194,7 +202,7 @@ const Header: React.FC<HeaderProps> = ({ onLogout, onViewChange, isSidebarCollap
           </div>
 
           {isDropdownOpen && (
-            <div className="absolute top-full right-0 mt-3 w-64 bg-bg-secondary backdrop-blur-2xl border border-border-default rounded-[28px] shadow-[0_32px_64px_-16px_rgba(0,0,0,0.8)] overflow-hidden animate-in fade-in slide-in-from-top-2 duration-300 origin-top-right">
+            <div className="absolute top-full right-0 mt-3 w-[calc(100vw-2rem)] md:w-64 bg-bg-secondary backdrop-blur-2xl border border-border-default rounded-[28px] shadow-[0_32px_64px_-16px_rgba(0,0,0,0.8)] overflow-hidden animate-in fade-in slide-in-from-top-2 duration-300 origin-top-right">
               <div className="p-6 border-b border-border-default/50 bg-bg-tertiary/40">
                 <div className="flex items-center gap-3">
                   <img src="https://picsum.photos/seed/pathoptix/80/80" className="w-10 h-10 rounded-lg border border-border-input" alt="Avatar" />
